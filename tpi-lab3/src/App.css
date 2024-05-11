@@ -48,6 +48,17 @@
   gap: 20px;
 }
 
+svg:hover {
+  cursor: pointer;
+  fill: #007bff;
+  transform: scale(1.2);
+  transition: all 0.2s ease;
+}
+
+.margen-superior {
+  margin-top: 70px;
+}
+
 .card {
   padding: 2em;
 }

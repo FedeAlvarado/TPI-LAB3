@@ -1,5 +1,4 @@
 import React from "react";
-import { Navbar } from "react-bootstrap";
 import Navbar2 from "../navbar/Navbar";
 
 const Layout = () => {
