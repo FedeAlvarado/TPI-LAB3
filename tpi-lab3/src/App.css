@@ -33,6 +33,32 @@
   }
 }
 
+.custom-input {
+  background-color: #f8f9fa;
+  color: black;
+}
+
+.custom-input:focus {
+  background-color: rgb(46, 46, 46);
+  color: white;
+}
+
+.navdiv {
+  display: flex;
+  gap: 20px;
+}
+
+svg:hover {
+  cursor: pointer;
+  fill: #007bff;
+  transform: scale(1.2);
+  transition: all 0.2s ease;
+}
+
+.margen-superior {
+  margin-top: 70px;
+}
+
 .card {
   padding: 2em;
 }
