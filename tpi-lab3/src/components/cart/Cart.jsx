@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 
 const Cart = () => {
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -18,6 +19,7 @@ const Cart = () => {
       <Button onClick={handleClick}>Volver al inicio</Button>
     </div>
   );
+
 };
 
 export default Cart;
