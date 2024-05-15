@@ -54,8 +54,8 @@ svg:hover {
   transform: scale(1.2);
   transition: all 0.2s ease;
 }
-
-.margen-superior {
+/* ARREGLAR ESTO, ES PROVISORIO... */
+.margen-superior {  
   margin-top: 70px;
 }
 

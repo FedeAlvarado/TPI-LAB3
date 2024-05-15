@@ -1,11 +1,16 @@
 import React from "react";
 import Navbar2 from "../navbar/Navbar";
 
-const Layout = () => {
+const Layout = ({children}) => {
   return (
     <>
       <Navbar2></Navbar2>
-      <div>Layout</div>
+
+      <div >{children}
+        </div> 
+{/* VALIDAR CON USESTATE PARA QUE SE MODIFIQUE EL HIJO ---- OTRA OPCION ES BAJAR EL NAVBAR */}
+      {/* FOOTER */}
+      
     </>
   );
 };

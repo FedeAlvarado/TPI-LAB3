@@ -12,7 +12,6 @@ const Contact = () => {
 
   return (
     <div>
-      <Navbar2></Navbar2>
       Contact
       <br></br>
       <Button onClick={handleClick}>Volver al inicio</Button>

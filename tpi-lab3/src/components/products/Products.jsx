@@ -12,7 +12,6 @@ const Products = () => {
 
   return (
     <div>
-      <Navbar2></Navbar2>
       Products
       <br></br>
       <Button onClick={handleClick}>Volver al inicio</Button>
