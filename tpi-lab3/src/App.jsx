@@ -8,9 +8,12 @@ import Protected from "./components/protected/Protected";
 import Cart from "./components/cart/Cart";
 import Products from "./components/products/Products";
 import Contact from "./components/contact/Contact";
+import { listProduct } from "./data/Data";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [product, setProduct] = useState(listProduct)
+
 
   const loginHandler = () => {
     setIsLoggedIn(true);
@@ -25,7 +28,7 @@ function App() {
       path: "/",
       element: (
         <Protected isSignedIn={isLoggedIn}>
-          <Layout></Layout>
+          <Layout listProducts={product}></Layout>
         </Protected>
       ),
     },
@@ -38,7 +41,8 @@ function App() {
     {
       path: "/products",
       element: (
-        <Products></Products>
+        <Products
+        listProducts={product}></Products>
       ),
     },
     {
