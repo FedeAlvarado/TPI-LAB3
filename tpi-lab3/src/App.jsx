@@ -10,6 +10,7 @@ import Cart from "./components/cart/Cart";
 import Products from "./components/products/Products";
 import Contact from "./components/contact/Contact";
 import { listProduct } from "./data/Data";
+import Dashboard from './components/dashboard/Dashboard';
 
 
 function App() {
@@ -30,7 +31,10 @@ function App() {
       path: "/",
       element: (
         <Protected isSignedIn={isLoggedIn}>
-          <Layout listProducts={product}></Layout>
+          <Layout>
+          <Dashboard></Dashboard>
+          </Layout>
+          
         </Protected>
       ),
     },
