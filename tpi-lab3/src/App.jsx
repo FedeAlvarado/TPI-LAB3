@@ -41,8 +41,7 @@ function App() {
     {
       path: "/products",
       element: (
-        <Products
-        listProducts={product}></Products>
+        <Products listProducts={product}></Products>
       ),
     },
     {
