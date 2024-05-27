@@ -48,6 +48,12 @@
   gap: 20px;
 }
 
+.footer {
+  background-color: #0D6EFD;
+  color: white;
+  height: 10%;
+}
+
 svg:hover {
   cursor: pointer;
   fill: #007bff;

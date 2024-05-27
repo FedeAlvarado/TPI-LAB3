@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { Button, Col, Form, Row, Card } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
+import Footer from "../footer/Footer";
 
 
 const Contact = () => {
@@ -178,9 +179,8 @@ const Contact = () => {
           <Button onClick={handleReturn}>Volver al inicio</Button>
         </Form>
       </Card>
+      <Footer></Footer>
     </div>
-
-
   );
 };
 
