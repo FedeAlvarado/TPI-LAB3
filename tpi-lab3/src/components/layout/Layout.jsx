@@ -5,12 +5,17 @@ import PropTypes from 'prop-types'
 
 const Layout = ({listProducts}) => {
 
+const Layout = ({children}) => {
   return (
     <>
       <Navbar2></Navbar2>
 
-      <div>Layout</div>
-      <Carrousel listProducts={listProducts}>HOLA</Carrousel>
+      <div >{children}
+      {/* <Carrousel listProducts={listProducts}>HOLA</Carrousel> */}
+        </div> 
+{/* VALIDAR CON USESTATE PARA QUE SE MODIFIQUE EL HIJO ---- OTRA OPCION ES BAJAR EL NAVBAR */}
+      {/* FOOTER */}
+      
     </>
   );
 };

@@ -28,7 +28,7 @@ const Products = ({ listProducts }) => {
        : (<p>ERROR AL CARGAR LOS DATOS</p>
       )}
       
-      <br />
+      
       <Button onClick={handleClick}>Volver al inicio</Button>
     </div>
   );
