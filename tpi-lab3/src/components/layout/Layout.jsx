@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar2 from "../navbar/Navbar";
+import Footer from "../footer/Footer";
 
 const Layout = ({ children }) => {
 
@@ -11,7 +12,7 @@ const Layout = ({ children }) => {
 
         </div>
         {/* VALIDAR CON USESTATE PARA QUE SE MODIFIQUE EL HIJO ---- OTRA OPCION ES BAJAR EL NAVBAR */}
-        {/* FOOTER */}
+        <Footer></Footer>
 
       </>
     );
