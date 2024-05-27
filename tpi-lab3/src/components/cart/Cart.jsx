@@ -13,7 +13,7 @@ const Cart = () => {
 
   return (
     <div>
-      <Navbar2></Navbar2>
+
       Cart
       <br></br>
       <Button onClick={handleClick}>Volver al inicio</Button>
