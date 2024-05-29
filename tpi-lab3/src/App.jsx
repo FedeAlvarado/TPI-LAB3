@@ -60,7 +60,7 @@ function App() {
       path: "/cart",
       element: (
         <Layout>
-          <Cart></Cart>
+          <Cart listProducts={product}></Cart>
         </Layout>
 
       ),
