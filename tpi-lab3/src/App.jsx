@@ -14,27 +14,16 @@ import Dashboard from './components/dashboard/Dashboard';
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [product, setProduct] = useState(listProduct)
-
-
-  const loginHandler = () => {
-    setIsLoggedIn(true);
-  };
-
-  const logOutHandler = () => {
-    setIsLoggedIn(false);
-  };
 
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Protected isSignedIn={isLoggedIn}>
+        <Protected>
           <Layout>
-          <Dashboard></Dashboard>
+            <Dashboard></Dashboard>
           </Layout>
-          
         </Protected>
       ),
     },
@@ -42,7 +31,7 @@ function App() {
       path: "/login",
       element: (
         <Layout>
-          <Login onLogin={loginHandler} />
+          <Login/>
         </Layout>
 
       ),
