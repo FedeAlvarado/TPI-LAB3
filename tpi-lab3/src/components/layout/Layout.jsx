@@ -8,8 +8,10 @@ const Layout = ({ children }) => {
       <>
         <Navbar2></Navbar2>
 
-        <div >{children}
-
+        <div>
+          {children}
+          <br />
+          <br />
         </div>
         {/* VALIDAR CON USESTATE PARA QUE SE MODIFIQUE EL HIJO ---- OTRA OPCION ES BAJAR EL NAVBAR */}
         <Footer></Footer>
