@@ -2,9 +2,11 @@ import { Button, Col, Form, Row, Card, Alert } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useContext } from 'react';
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import NewUser from '../../newUser/NewUser';
+import RecoverUser from '../../recoverUser/RecoverUser';
 
 const Login = () => {
-  const [show, setShow] = useState(true);
+  const [formType, setFormType] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -87,100 +89,76 @@ const Login = () => {
 
   return (
     <>
-      <Alert show={show}>
+      <Alert show={true}>
         <Card border="primary">
-          <Form>
-            <h3>INICIE SESIÓN</h3>
-            <br />
-            <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formPlaintextEmail">
-              <Form.Label column sm="12">
-                Email
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  type="text"
-                  placeholder="Mail"
-                  required
-                  onChange={changeEmailHandler}
-                  ref={emailRef}
-                  value={email} />
-              </Col>
-            </Form.Group>
+          {formType === "login" && (
+            <Form>
+              <h3>INICIE SESIÓN</h3>
+              <br />
+              <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formPlaintextEmail">
+                <Form.Label column sm="12">
+                  Email
+                </Form.Label>
+                <Col sm="12">
+                  <Form.Control
+                    type="text"
+                    placeholder="Mail"
+                    required
+                    onChange={changeEmailHandler}
+                    ref={emailRef}
+                    value={email} />
+                </Col>
+              </Form.Group>
 
-            <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formPlaintextPassword">
-              <Form.Label column sm="12">
-                Password
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  required
-                  onChange={changePasswordHandler}
-                  value={password}
-                  ref={passwordRef} />
-              </Col>
-            </Form.Group>
-          </Form>
-          {(errors.email || errors.password) && (
-            <div className="mt-1 mb-3">
-              <Alert variant="danger">{errorMsg}</Alert>
-            </div>
+              <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formPlaintextPassword">
+                <Form.Label column sm="12">
+                  Password
+                </Form.Label>
+                <Col sm="12">
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    required
+                    onChange={changePasswordHandler}
+                    value={password}
+                    ref={passwordRef} />
+                </Col>
+              </Form.Group>
+
+              {(errors.email || errors.password) && (
+                <div className="mt-1 mb-3">
+                  <Alert variant="danger">{errorMsg}</Alert>
+                </div>
+              )}
+              <br />
+              <br />
+              <Button onClick={loginHandler}>Iniciar sesión</Button>
+              <br />
+              <br />
+              <a onClick={() => setFormType("register")} href="#">Crea tu cuenta</a>
+              <br />
+              <br />
+              <a onClick={() => setFormType("recover")} href="#">Recuperar usuario</a>
+            </Form>
+            
           )}
-          <br />
-          <Button onClick={loginHandler}>Iniciar sesión</Button>
-          <br />
-          <a onClick={() => setShow(!true)} href="#">Crea tu cuenta.</a>
+
+          {formType === "register" && (
+            <>
+              <NewUser />
+              <br />
+              <a onClick={() => setFormType("login")} href="#">Volver a iniciar sesión</a>
+            </>
+          )}
+
+          {formType === "recover" && (
+            <>
+              <RecoverUser />
+              <br />
+              <a onClick={() => setFormType("login")} href="#">Volver a iniciar sesión</a>
+            </>
+          )}
         </Card>
-      </Alert>
-
-      <Alert show={!show} >
-        <Card border="primary">
-          <Form>
-            <h3>REGISTRESE</h3>
-            <br />
-            <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formNewName">
-              <Form.Label column sm="12">
-                Nombre completo
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  type="text"
-                  placeholder="Full Name" />
-              </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formNewEmail">
-              <Form.Label column sm="12">
-                Email
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  type="text"
-                  placeholder="Mail" />
-              </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mb-3 d-flex flex-column align-items-center" controlId="formNewPassword">
-              <Form.Label column sm="12">
-                Password
-              </Form.Label>
-              <Col sm="12">
-                <Form.Control
-                  type="password"
-                  placeholder="Password" />
-              </Col>
-            </Form.Group>
-          </Form>
-          <br />
-          <Button onClick={loginHandler}>Crear cuenta</Button>
-        </Card>
-        <hr />
-        <div className="d-flex justify-content-end">
-          <Button onClick={() => setShow(!false)}>
-            Volver
-          </Button>
-        </div>
       </Alert>
     </>
   );
