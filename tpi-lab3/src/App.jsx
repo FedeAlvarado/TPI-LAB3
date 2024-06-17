@@ -12,7 +12,6 @@ import Contact from "./components/contact/Contact";
 import { listProduct } from "./data/Data";
 import Dashboard from './components/dashboard/Dashboard';
 
-
 function App() {
   const [product, setProduct] = useState(listProduct)
 
@@ -22,7 +21,7 @@ function App() {
       element: (
         <Protected>
           <Layout>
-            <Dashboard></Dashboard>
+            <Dashboard />
           </Layout>
         </Protected>
       ),
@@ -33,41 +32,37 @@ function App() {
         <Layout>
           <Login/>
         </Layout>
-
       ),
     },
     {
       path: "/products",
       element: (
         <Layout>
-          <Products listProducts={product}></Products>
+          <Products listProducts={product} isLoggedIn={isLoggedIn} />
         </Layout>
-
       ),
     },
     {
       path: "/cart",
       element: (
         <Layout>
-          <Cart></Cart>
+          <Cart listProducts={product} />
         </Layout>
-
       ),
     },
     {
       path: "/contact",
       element: (
         <Layout>
-          <Contact></Contact>
+          <Contact />
         </Layout>
-
       ),
     },
     {
       path: "*",
       element: (
         <Layout>
-          <NotFound></NotFound>
+          <NotFound />
         </Layout>
       ),
     },
@@ -75,7 +70,7 @@ function App() {
 
   return (
     <div className="d-flex flex-column align-items-center margen-superior">
-      {<RouterProvider router={router} />}
+      <RouterProvider router={router} />
     </div>
   );
 }
