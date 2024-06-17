@@ -1,33 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 import PropTypes from 'prop-types'
 import ProductItem from "../productItem/ProductItem";
+import { listProduct } from "../../data/Data";
 
-
-const Products = ({ listProducts }) => {
+const Products = ({ isLoggedIn }) => {
+  const [products, setProducts] = useState(listProduct);
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/");
   };
 
+  const editProduct = (id, updatedProduct) => {
+    setProducts(prevProducts => prevProducts.map(product =>
+      product.id === id ? { ...product, ...updatedProduct } : product
+    ));
+  };
+
+  const deleteProduct = (id) => {
+    setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+  };
+
   return (
     <div>
       <Navbar2 />
-      {listProducts.length > 0 ? listProducts.map((product) => (
+      {products.length > 0 ? products.map((product) => (
         <ProductItem 
-        // key={product.id}
-        nombre={product.nombre}
-        descripcion={product.descripcion}
-        precio={product.precio}
-        imageFileName={product.imageFileName}
+          key={product.id}
+          id={product.id}
+          nombre={product.nombre}
+          descripcion={product.descripcion}
+          precio={product.precio}
+          imageFileName={product.imageFileName}
+          isLoggedIn={isLoggedIn}
+          onEditProduct={editProduct}
+          onDeleteProduct={deleteProduct}
         />
-      ))
-       : (<p>ERROR AL CARGAR LOS DATOS</p>
-      )}
-      
+      )) : (<p>ERROR AL CARGAR LOS DATOS</p>)}
       
       <Button onClick={handleClick}>Volver al inicio</Button>
     </div>
@@ -35,7 +47,7 @@ const Products = ({ listProducts }) => {
 };
 
 Products.propTypes = {
-  listProducts: PropTypes.array
-}
+  isLoggedIn: PropTypes.bool.isRequired,
+};
 
 export default Products;

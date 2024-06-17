@@ -12,11 +12,9 @@ import Contact from "./components/contact/Contact";
 import { listProduct } from "./data/Data";
 import Dashboard from './components/dashboard/Dashboard';
 
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [product, setProduct] = useState(listProduct)
-
 
   const loginHandler = () => {
     setIsLoggedIn(true);
@@ -32,9 +30,8 @@ function App() {
       element: (
         <Protected isSignedIn={isLoggedIn}>
           <Layout>
-          <Dashboard></Dashboard>
+            <Dashboard />
           </Layout>
-          
         </Protected>
       ),
     },
@@ -44,41 +41,37 @@ function App() {
         <Layout>
           <Login onLogin={loginHandler} />
         </Layout>
-
       ),
     },
     {
       path: "/products",
       element: (
         <Layout>
-          <Products listProducts={product}></Products>
+          <Products listProducts={product} isLoggedIn={isLoggedIn} />
         </Layout>
-
       ),
     },
     {
       path: "/cart",
       element: (
         <Layout>
-          <Cart listProducts={product}></Cart>
+          <Cart listProducts={product} />
         </Layout>
-
       ),
     },
     {
       path: "/contact",
       element: (
         <Layout>
-          <Contact></Contact>
+          <Contact />
         </Layout>
-
       ),
     },
     {
       path: "*",
       element: (
         <Layout>
-          <NotFound></NotFound>
+          <NotFound />
         </Layout>
       ),
     },
@@ -86,7 +79,7 @@ function App() {
 
   return (
     <div className="d-flex flex-column align-items-center margen-superior">
-      {<RouterProvider router={router} />}
+      <RouterProvider router={router} />
     </div>
   );
 }
