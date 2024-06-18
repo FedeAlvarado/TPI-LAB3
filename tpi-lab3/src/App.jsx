@@ -1,23 +1,36 @@
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useState } from "react";
-import Layout from "./components/layout/Layout";
-import NotFound from "./components/notFound/NotFound";
-import Login from "./components/login/Login";
-import Protected from "./components/protected/Protected";
-import Cart from "./components/cart/Cart";
-import Products from "./components/products/Products";
-import Contact from "./components/contact/Contact";
-import { listProduct } from "./data/Data";
+import './App.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import NotFound from './components/notFound/NotFound';
+import Login from './components/login/Login';
+import Protected from './components/protected/Protected';
+import Cart from './components/cart/Cart';
+import Products from './components/products/Products';
+import Contact from './components/contact/Contact';
+import { listProduct } from './data/Data';
 import Dashboard from './components/dashboard/Dashboard';
+import SearchResults from './components/searchResults/SearchResults';
 
 function App() {
-  const [product, setProduct] = useState(listProduct)
+  // Estado
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [product, setProduct] = useState(listProduct);
 
+  // Manejadores de inicio de sesión y cierre de sesión
+  const loginHandler = () => {
+    setIsLoggedIn(true);
+  };
+
+  const logOutHandler = () => {
+    setIsLoggedIn(false);
+  };
+
+  // Configuración de las rutas
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: (
         <Protected>
           <Layout>
@@ -27,23 +40,32 @@ function App() {
       ),
     },
     {
-      path: "/login",
+      path: "/dashboard",
+      element: (
+          <Layout>
+            <Dashboard />
+          </Layout>
+        
+      ),
+    },
+    {
+      path: '/login',
       element: (
         <Layout>
-          <Login/>
+          <Login onLogin={loginHandler} />
         </Layout>
       ),
     },
     {
-      path: "/products",
+      path: '/products',
       element: (
         <Layout>
-          <Products listProducts={product} isLoggedIn={isLoggedIn} />
+          <Products listProducts={product} />
         </Layout>
       ),
     },
     {
-      path: "/cart",
+      path: '/cart',
       element: (
         <Layout>
           <Cart listProducts={product} />
@@ -51,7 +73,7 @@ function App() {
       ),
     },
     {
-      path: "/contact",
+      path: '/contact',
       element: (
         <Layout>
           <Contact />
@@ -59,7 +81,15 @@ function App() {
       ),
     },
     {
-      path: "*",
+      path: '/search-results',
+      element: (
+        <Layout>
+          <SearchResults />
+        </Layout>
+      ),
+    },
+    {
+      path: '*',
       element: (
         <Layout>
           <NotFound />
@@ -68,6 +98,7 @@ function App() {
     },
   ]);
 
+  // Componente principal
   return (
     <div className="d-flex flex-column align-items-center margen-superior">
       <RouterProvider router={router} />

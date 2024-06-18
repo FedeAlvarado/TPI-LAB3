@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedIn, onEditProduct, onDeleteProduct }) => {
+const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedIn, onEditProduct, onDeleteProduct, stock }) => {
   const [showModal, setShowModal] = useState(false);
-  const [updatedProduct, setUpdatedProduct] = useState({ nombre, descripcion, precio, imageFileName });
+  const [updatedProduct, setUpdatedProduct] = useState({ nombre, descripcion, precio, imageFileName, stock });
 
   const handleDelete = () => {
     onDeleteProduct(id);
@@ -18,14 +18,20 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
   return (
     <div>
       <Card>
-        <Card.Img 
-          src={imageFileName !== "" ? imageFileName : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
-          style={{maxWidth: '100px', maxHeight: '100px'}}
-        />
+        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
+          <Card.Img 
+            src={imageFileName !== "" ? imageFileName : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
+            style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain' }}
+            className="img-fluid"
+          />
+        </div>
         <Card.Body>
           <Card.Title>{nombre}</Card.Title>
           <Card.Subtitle>{descripcion}</Card.Subtitle>
           <Card.Subtitle>{`$${precio}`}</Card.Subtitle>
+          <Card.Text>
+            <strong>Stock: </strong>{stock}
+          </Card.Text>
           <Button
             size="sm"
             style={{ marginTop: '10px' }}>AGREGAR AL CARRITO</Button>
@@ -83,6 +89,14 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
                 onChange={(e) => setUpdatedProduct({ ...updatedProduct, imageFileName: e.target.value })} 
               />
             </Form.Group>
+            <Form.Group controlId="formProductStock">
+              <Form.Label>Stock</Form.Label>
+              <Form.Control 
+                type="number" 
+                value={updatedProduct.stock} 
+                onChange={(e) => setUpdatedProduct({ ...updatedProduct, stock: parseInt(e.target.value) })} 
+              />
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -91,7 +105,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
         </Modal.Footer>
       </Modal>
     </div>
-  )
+  );
 };
 
 ProductItem.propTypes = {
@@ -103,6 +117,7 @@ ProductItem.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   onEditProduct: PropTypes.func.isRequired,
   onDeleteProduct: PropTypes.func.isRequired,
+  stock: PropTypes.number.isRequired, 
 };
 
 export default ProductItem;
