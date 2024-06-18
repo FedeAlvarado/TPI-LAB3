@@ -27,10 +27,19 @@ function App() {
       ),
     },
     {
+      path: "/dashboard",
+      element: (
+        <Layout>
+          <Dashboard />
+        </Layout>
+
+      ),
+    },
+    {
       path: "/login",
       element: (
         <Layout>
-          <Login/>
+          <Login />
         </Layout>
       ),
     },
@@ -38,16 +47,17 @@ function App() {
       path: "/products",
       element: (
         <Layout>
-          <Products listProducts={product} isLoggedIn={isLoggedIn} />
+          <Products listProducts={product} />
         </Layout>
       ),
     },
     {
       path: "/cart",
       element: (
-        <Layout>
-          <Cart listProducts={product} />
-        </Layout>
+          <Layout>
+            <Cart listProducts={product} />
+          </Layout>
+
       ),
     },
     {
