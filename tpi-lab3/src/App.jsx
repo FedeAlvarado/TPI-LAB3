@@ -12,6 +12,7 @@ import Contact from './components/contact/Contact';
 import { listProduct } from './data/Data';
 import Dashboard from './components/dashboard/Dashboard';
 import SearchResults from './components/searchResults/SearchResults';
+import Superadmin from './components/superadmin/Superadmin';
 
 function App() {
   // Estado
@@ -43,17 +44,17 @@ function App() {
     {
       path: "/dashboard",
       element: (
-          <Layout>
-            <Dashboard />
-          </Layout>
-        
+        <Layout>
+          <Dashboard />
+        </Layout>
+
       ),
     },
     {
-      path: '/login',
+      path: "/login",
       element: (
         <Layout>
-          <Login onLogin={loginHandler} />
+          <Login />
         </Layout>
       ),
     },
@@ -90,7 +91,15 @@ function App() {
       ),
     },
     {
-      path: '*',
+      path: "/superadmin",
+      element: (
+        <Layout>
+          <Superadmin />
+        </Layout>
+      ),
+    },
+    {
+      path: "*",
       element: (
         <Layout>
           <NotFound />

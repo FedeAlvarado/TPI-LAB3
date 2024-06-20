@@ -6,22 +6,29 @@ export const AuthenticationContext = createContext({});
 
 const userValueString = localStorage.getItem("user");
 const userValue = userValueString ? JSON.parse(userValueString) : null;
+const userTypeValueString = localStorage.getItem("userType");
+const userTypeValue = userTypeValueString ? JSON.parse(userTypeValueString) : null;
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(userValue);
+  const [userType, setUserType] = useState(userTypeValue)
 
-  const handleLogin = (email) => {
+  const handleLogin = (email,role) => {
     localStorage.setItem("user", JSON.stringify({ email }));
     setUser({ email });
+    localStorage.setItem("userType", JSON.stringify({ role }));
+    setUserType({role});
   };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    localStorage.removeItem("userType");
+    setUserType(null);
   };
 
   return (
-    <AuthenticationContext.Provider value={{ user, handleLogin, handleLogout }}>
+    <AuthenticationContext.Provider value={{ user,userType, handleLogin, handleLogout }}>
       {children}
     </AuthenticationContext.Provider>
   );
