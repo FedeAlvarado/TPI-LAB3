@@ -69,6 +69,14 @@ function App() {
       ),
     },
     {
+      path: "/superadmin",
+      element: (
+        <Layout>
+          {/* FALTA HACER COMPONENTE ADMIN */}
+        </Layout>
+      ),
+    },
+    {
       path: "*",
       element: (
         <Layout>

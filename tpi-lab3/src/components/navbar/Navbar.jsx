@@ -15,7 +15,11 @@ const Navbar2 = () => {
 
   const handleOffcanvasToggle = () => {
     setShowOffcanvas(!showOffcanvas);
+
   };
+
+  const { userType } = useContext(AuthenticationContext);
+
 
   return (
     <>
@@ -59,6 +63,8 @@ const Navbar2 = () => {
                     <Nav.Link onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link onClick={handleClick} to="/contact">Contacto</Nav.Link>
+                    {userType === "superadmin"} && 
+                    (<Nav.Link onClick={handleClick} to="/superadmin">Administradores</Nav.Link>)
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>

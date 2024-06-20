@@ -4,21 +4,14 @@ import Footer from "../footer/Footer";
 
 const Layout = ({ children }) => {
 
-    return (
-      <>
-        <Navbar2></Navbar2>
-
-        <div>
-          {children}
-          <br />
-          <br />
-        </div>
-        {/* VALIDAR CON USESTATE PARA QUE SE MODIFIQUE EL HIJO ---- OTRA OPCION ES BAJAR EL NAVBAR */}
-        <Footer></Footer>
-
-      </>
-    );
-  };
+  return (
+    <>
+      <Navbar2 />
+      {children}
+      <Footer />
+    </>
+  );
+};
 
 
 
