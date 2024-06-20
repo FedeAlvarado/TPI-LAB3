@@ -2,8 +2,8 @@ import { Button, Col, Form, Row, Card, Alert } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useContext } from 'react';
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
-import NewUser from '../../newUser/NewUser';
-import RecoverUser from '../../recoverUser/RecoverUser';
+import NewUser from '../newUser/NewUser';
+import RecoverUser from '../recoverUser/RecoverUser';
 
 const Login = () => {
   const [formType, setFormType] = useState("login");

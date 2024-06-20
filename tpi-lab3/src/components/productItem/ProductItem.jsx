@@ -18,10 +18,12 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
   return (
     <div>
       <Card>
-        <Card.Img 
-          src={imageFileName !== "" ? imageFileName : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
-          style={{maxWidth: '100px', maxHeight: '100px'}}
-        />
+      <div className="d-flex justify-content-center mt-3">
+          <Card.Img 
+            src={imageFileName !== "" ? imageFileName : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
+            style={{maxWidth: '100px', maxHeight: '100px'}}
+          />
+        </div>
         <Card.Body>
           <Card.Title>{nombre}</Card.Title>
           <Card.Subtitle>{descripcion}</Card.Subtitle>

@@ -11,6 +11,7 @@ import Products from "./components/products/Products";
 import Contact from "./components/contact/Contact";
 import { listProduct } from "./data/Data";
 import Dashboard from './components/dashboard/Dashboard';
+import Superadmin from './components/superadmin/Superadmin';
 
 function App() {
   const [product, setProduct] = useState(listProduct)
@@ -72,7 +73,7 @@ function App() {
       path: "/superadmin",
       element: (
         <Layout>
-          {/* FALTA HACER COMPONENTE ADMIN */}
+          <Superadmin/>
         </Layout>
       ),
     },
