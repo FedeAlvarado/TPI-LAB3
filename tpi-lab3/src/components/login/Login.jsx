@@ -62,29 +62,29 @@ const Login = () => {
 
     setErrors({ ...errors, exist: false });
 
-    try {
-      const response = await fetch('http://localhost:7054/api/Api', {
-        method: 'POST',
-        headers: {
-          'accept':' */*',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
+    // try {
+    //   const response = await fetch('http://localhost:7054/api/Api', {
+    //     method: 'POST',
+    //     headers: {
+    //       'accept':' */*',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({ email, password })
+    //   });
 
-      const data = await response.json();
+    //   const data = await response.json();
 
-      if (response.ok) {
+      // if (response.ok) {
         handleLogin(email);
         navigate('/');
-      } else {
-        setErrors({ ...errors, apiError: false });
-        setErrorMsg("Credenciales incorrectas.");
-      }
-    } catch (error) {
-      setErrors({ ...errors, apiError: false });
-      setErrorMsg("Error al conectar con el servidor.");
-    }
+    //   } else {
+    //     setErrors({ ...errors, apiError: false });
+    //     setErrorMsg("Credenciales incorrectas.");
+    //   }
+    // } catch (error) {
+    //   setErrors({ ...errors, apiError: false });
+    //   setErrorMsg("Error al conectar con el servidor.");
+    // }
   };
 
   return (

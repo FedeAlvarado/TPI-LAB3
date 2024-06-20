@@ -2,9 +2,20 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedIn, onEditProduct, onDeleteProduct, stock }) => {
+const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
   const [showModal, setShowModal] = useState(false);
-  const [updatedProduct, setUpdatedProduct] = useState({ nombre, descripcion, precio, imageFileName, stock });
+  const [updatedProduct, setUpdatedProduct] = useState({
+    id,
+    nombre,
+    descripcion,
+    precio,
+    imageFileName,
+    stock
+  });
+
+  const handleAddToCart = () => {
+    addToCart({ id, nombre, descripcion, precio, imageFileName, stock });
+  };
 
   const handleDelete = () => {
     onDeleteProduct(id);
@@ -13,6 +24,26 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
   const handleEdit = () => {
     onEditProduct(id, updatedProduct);
     setShowModal(false);
+  };
+
+  const handleNombreChange = (e) => {
+    setUpdatedProduct({ ...updatedProduct, nombre: e.target.value });
+  };
+
+  const handleDescripcionChange = (e) => {
+    setUpdatedProduct({ ...updatedProduct, descripcion: e.target.value });
+  };
+
+  const handlePrecioChange = (e) => {
+    setUpdatedProduct({ ...updatedProduct, precio: parseFloat(e.target.value) });
+  };
+
+  const handleImageFileNameChange = (e) => {
+    setUpdatedProduct({ ...updatedProduct, imageFileName: e.target.value });
+  };
+
+  const handleStockChange = (e) => {
+    setUpdatedProduct({ ...updatedProduct, stock: parseInt(e.target.value) });
   };
 
   return (
@@ -32,9 +63,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
           <Card.Text>
             <strong>Stock: </strong>{stock}
           </Card.Text>
-          <Button
-            size="sm"
-            style={{ marginTop: '10px' }}>AGREGAR AL CARRITO</Button>
+          <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart}>AGREGAR AL CARRITO</Button>
           {isLoggedIn && (
             <div className="admin-options" style={{ marginTop: '10px' }}>
               <Button 
@@ -62,7 +91,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
               <Form.Control 
                 type="text" 
                 value={updatedProduct.nombre} 
-                onChange={(e) => setUpdatedProduct({ ...updatedProduct, nombre: e.target.value })} 
+                onChange={handleNombreChange} 
               />
             </Form.Group>
             <Form.Group controlId="formProductDescription">
@@ -70,7 +99,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
               <Form.Control 
                 type="text" 
                 value={updatedProduct.descripcion} 
-                onChange={(e) => setUpdatedProduct({ ...updatedProduct, descripcion: e.target.value })} 
+                onChange={handleDescripcionChange} 
               />
             </Form.Group>
             <Form.Group controlId="formProductPrice">
@@ -78,7 +107,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
               <Form.Control 
                 type="number" 
                 value={updatedProduct.precio} 
-                onChange={(e) => setUpdatedProduct({ ...updatedProduct, precio: parseFloat(e.target.value) })} 
+                onChange={handlePrecioChange} 
               />
             </Form.Group>
             <Form.Group controlId="formProductImage">
@@ -86,7 +115,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
               <Form.Control 
                 type="text" 
                 value={updatedProduct.imageFileName} 
-                onChange={(e) => setUpdatedProduct({ ...updatedProduct, imageFileName: e.target.value })} 
+                onChange={handleImageFileNameChange} 
               />
             </Form.Group>
             <Form.Group controlId="formProductStock">
@@ -94,7 +123,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, isLoggedI
               <Form.Control 
                 type="number" 
                 value={updatedProduct.stock} 
-                onChange={(e) => setUpdatedProduct({ ...updatedProduct, stock: parseInt(e.target.value) })} 
+                onChange={handleStockChange} 
               />
             </Form.Group>
           </Form>
@@ -114,10 +143,11 @@ ProductItem.propTypes = {
   descripcion: PropTypes.string.isRequired,
   precio: PropTypes.number.isRequired,
   imageFileName: PropTypes.string.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  stock: PropTypes.number.isRequired,
+  addToCart: PropTypes.func.isRequired,
   onEditProduct: PropTypes.func.isRequired,
   onDeleteProduct: PropTypes.func.isRequired,
-  stock: PropTypes.number.isRequired, 
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 export default ProductItem;

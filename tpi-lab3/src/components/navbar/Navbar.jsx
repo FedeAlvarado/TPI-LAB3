@@ -37,7 +37,7 @@ const Navbar2 = ({ listProduct }) => {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                  <Nav.Link onClick={handleClick} to="/dashboard">Inicio</Nav.Link>
+                  <Nav.Link onClick={handleClick} to="/Dashboard">Inicio</Nav.Link>
                   <Nav.Link onClick={handleClick} to="/login">Log-in</Nav.Link>
                   <Nav.Link onClick={handleClick} to="/products">Productos</Nav.Link>
                   <Nav.Link onClick={handleClick} to="/cart">Carrito</Nav.Link>

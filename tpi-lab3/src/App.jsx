@@ -17,6 +17,7 @@ function App() {
   // Estado
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [product, setProduct] = useState(listProduct);
+  const [cart, setCart] = useState([]);
 
   // Manejadores de inicio de sesión y cierre de sesión
   const loginHandler = () => {
@@ -60,7 +61,7 @@ function App() {
       path: '/products',
       element: (
         <Layout>
-          <Products listProducts={product} />
+          <Products listProducts={product} carts={setCart} />
         </Layout>
       ),
     },
@@ -68,7 +69,7 @@ function App() {
       path: '/cart',
       element: (
         <Layout>
-          <Cart listProducts={product} />
+          <Cart cart={cart} />
         </Layout>
       ),
     },
