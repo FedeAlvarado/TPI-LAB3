@@ -44,7 +44,6 @@ const Products = ({carts}) => {
 
   return (
     <div>
-      <Navbar2 />
       {products.length > 0 ? (
         products.map((product) => (
           <ProductItem 

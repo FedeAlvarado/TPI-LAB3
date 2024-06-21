@@ -60,9 +60,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
           <Card.Title>{nombre}</Card.Title>
           <Card.Subtitle>{descripcion}</Card.Subtitle>
           <Card.Subtitle>{`$${precio}`}</Card.Subtitle>
-          <Card.Text>
-            <strong>Stock: </strong>{stock}
-          </Card.Text>
+          <Card.Subtitle>Cantidad disponible:{stock}</Card.Subtitle>
           <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart}>AGREGAR AL CARRITO</Button>
           {isLoggedIn && (
             <div className="admin-options" style={{ marginTop: '10px' }}>
@@ -70,8 +68,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
                 variant="primary" 
                 size="sm" 
                 style={{ marginRight: '5px' }}
-                onClick={() => setShowModal(true)}
-              >
+                onClick={() => setShowModal(true)}>
                 Editar
               </Button>
               <Button variant="danger" size="sm" onClick={handleDelete}>Eliminar</Button>

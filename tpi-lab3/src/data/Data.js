@@ -80,4 +80,30 @@ export const listProduct = [
     stock: 100
   }
 ];
+export const listUsers = [
+  {
+    id: "0",
+    firstName: "Juan",
+    lastName: "Perez",
+    email: "juanperez@example.com",
+    password: "juan1234",
+    role: "vendedor"
+  },
+  {
+    id: "1",
+    firstName: "María Esther",
+    lastName: "Lopez",
+    email: "marialopez@example.com",
+    password: "maria5678",
+    role: "superadmin"
+  },
+  {
+    id: "2",
+    firstName: "Pedro Federico",
+    lastName:"Ramirez",
+    email: "pedroramirez@example.com",
+    password: "pedro999",
+    role: "cliente"
+  }
+]
 
