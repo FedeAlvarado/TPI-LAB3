@@ -70,8 +70,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
                 variant="primary" 
                 size="sm" 
                 style={{ marginRight: '5px' }}
-                onClick={() => setShowModal(true)}
-              >
+                onClick={() => setShowModal(true)}>
                 Editar
               </Button>
               <Button variant="danger" size="sm" onClick={handleDelete}>Eliminar</Button>

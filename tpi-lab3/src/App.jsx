@@ -9,16 +9,18 @@ import Protected from './components/protected/Protected';
 import Cart from './components/cart/Cart';
 import Products from './components/products/Products';
 import Contact from './components/contact/Contact';
-import { listProduct } from './data/Data';
+import { listProduct, listUsers } from './data/Data';
 import Dashboard from './components/dashboard/Dashboard';
 import SearchResults from './components/searchResults/SearchResults';
 import Superadmin from './components/superadmin/Superadmin';
+import Users from './components/users/Users';
 
 function App() {
   // Estado
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [product, setProduct] = useState(listProduct);
   const [cart, setCart] = useState([]);
+  const [user, setUser] = useState(listUsers);
 
   // Manejadores de inicio de sesión y cierre de sesión
   const loginHandler = () => {
@@ -95,6 +97,14 @@ function App() {
       element: (
         <Layout>
           <Superadmin />
+        </Layout>
+      ),
+    },
+    {
+      path: "/users",
+      element: (
+        <Layout>
+          <Users listUsers={user}/>
         </Layout>
       ),
     },

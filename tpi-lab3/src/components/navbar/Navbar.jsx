@@ -31,20 +31,11 @@ const Navbar2 = ({ listProduct }) => {
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} bg="primary" data-bs-theme="dark" className="fixed-top w-100">
           <Container fluid>
-          <Button variant="link" onClick={handleClick} to="/" className="d-flex align-items-center text-white">
+          <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white">
               <FaTools fontSize={"28px"} className="me-2" /> Ferretotal
             </Button>
+            <Searcher products={listProduct} />
 
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2 custom-input"
-                aria-label="Search"
-                htmlSize="35"
-              />
-              <Searcher products={listProduct} />
-            </Form>
             <div className="navdiv d-flex align-items-center">
               <FaUserCircle onClick={handleClick} to={"/login"} fontSize={"28px"} style={{ color: 'white' }} />
               <FaShoppingCart onClick={handleClick} to={"/cart"} fontSize={"28px"} style={{ color: 'white' }} />
