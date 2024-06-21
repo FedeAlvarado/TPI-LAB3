@@ -2,13 +2,11 @@ import { useState } from 'react'
 import React from 'react'
 import { Button, Card,Modal } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom';
 import UpdateUser from '../updateUser/UpdateUser';
 
-const UserItem = ({ id, firstName, email, password, role, lastName, onDeleteUser,onUpdateUser }) => {
+const UserItem = ({ id, name, email, password, type, lastName, onDeleteUser,onUpdateUser }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
-  // const navigate = useNavigate();
 
   const handleDelete = () => {
     onDeleteUser(id);
@@ -18,10 +16,10 @@ const UserItem = ({ id, firstName, email, password, role, lastName, onDeleteUser
     <div>
       <Card>
         <Card.Body>
-          <Card.Title>Usuario: {lastName}, {firstName}</Card.Title>
+          <Card.Title>Usuario: {lastName}, {name}</Card.Title>
           <Card.Title>Correo Electronico: {email}</Card.Title>
           <Card.Title>Contraseña: {password}</Card.Title>
-          <Card.Subtitle>Tipo de usuario: '{role}'</Card.Subtitle>
+          <Card.Subtitle>Tipo de usuario: '{type}'</Card.Subtitle>
 
         </Card.Body>
         <Button size='lg' variant='warning' onClick={() => setShowUpdate(true)}>EDITAR</Button>
@@ -33,7 +31,7 @@ const UserItem = ({ id, firstName, email, password, role, lastName, onDeleteUser
           <Modal.Title>Confirmar Eliminación</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          ¿Estás seguro de que deseas eliminar al {role} - {lastName}, {firstName}?
+          ¿Estás seguro de que deseas eliminar al {type} - {lastName}, {name}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowDelete(false)}>
@@ -47,7 +45,7 @@ const UserItem = ({ id, firstName, email, password, role, lastName, onDeleteUser
       <UpdateUser
         show={showUpdate}
         handleClose={() => setShowUpdate(false)}
-        user={{ id, firstName, lastName, email, password, role }}
+        user={{ id, name, lastName, email, password, type }}
         onUpdateUser={onUpdateUser}
       />
 
@@ -56,10 +54,10 @@ const UserItem = ({ id, firstName, email, password, role, lastName, onDeleteUser
 };
 
 UserItem.PropTypes = {
-  firstName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   onDeleteUser: PropTypes.func.isRequired

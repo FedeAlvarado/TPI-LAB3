@@ -1,18 +1,88 @@
-import React, { useState } from 'react';
-import { listUsers } from '../../data/Data';
+import React, { useState, useEffect  } from "react";
 import UserItem from '../userItem/UserItem';
 import { Button } from 'react-bootstrap';
 
 const Users = () => {
-  const [users, setUser] = useState(listUsers);
+  const [users, setUser] = useState([]);
 
-  const deleteUser = (id) => {
-    setUser(prevUser => prevUser.filter(user => user.id !== id));
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('http://localhost:7054/User', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+        console.log("Se reciben los usuarios de la api");
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error fetching users:', error);
+    }
   };
-  const updateUser = (id, updateUser) => {
-    setUser(prevUsers =>
-      prevUsers.map(user => user.id === id ? { ...user, ...updateUser } : user)
-    );
+
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:7054/User/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        console.log("Usuario eliminado exitosamente");
+        alert("Usuario eliminado exitosamente");
+        fetchUsers();
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error deleting user:', error);
+    }
+  };
+
+  const updateUser = async (id, updateUser) => {
+    try {
+      const response = await fetch('http://localhost:7054/User/updateUser', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updateUser),
+      });
+
+      if (response.ok) {
+        console.log("Usuario actualizado exitosamente");
+        alert("Usuario actualizado exitosamente");
+        fetchUsers();
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error updating user:', error);
+    }
   };
 
   return (
@@ -24,11 +94,11 @@ const Users = () => {
           <UserItem
             key={index}
             id={user.id}
-            firstName={user.firstName}
+            name={user.name}
             lastName={user.lastName}
             email={user.email}
             password={user.password}
-            role={user.role}
+            type={user.type}
             onDeleteUser={deleteUser}
             onUpdateUser={updateUser}
           />
