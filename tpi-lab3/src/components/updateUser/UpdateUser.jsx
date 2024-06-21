@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 
 const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
     const [formData, setFormData] = useState({
-        firstName: user.firstName,
+        id: user.id,
+        name: user.name,
         lastName: user.lastName,
         email: user.email,
         password: user.password,
-        role: user.role,
+        type: user.type,
     });
 
     const handleChange = (e) => {
@@ -33,8 +34,8 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control
                             type="text"
-                            name="firstName"
-                            value={formData.firstName}
+                            name="name"
+                            value={formData.name}
                             onChange={handleChange}
                             required
                         />
@@ -73,8 +74,8 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Label>Rol</Form.Label>
                         <Form.Control
                             type="text"
-                            name="role"
-                            value={formData.role}
+                            name="type"
+                            value={formData.type}
                             onChange={handleChange}
                             required
                         />
@@ -95,11 +96,11 @@ UpdateUser.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     id: PropTypes.number.isRequired,
-    firstName: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     onUpdateUser: PropTypes.func.isRequired,
 };
 

@@ -87,7 +87,7 @@ const Products = ({carts}) => {
         console.log("Producto creado exitosamente");
         alert("Producto creado exitosamente");
         fetchProducts();
-        setShowModal(false);        
+        setShowModal(false);
         return;
       } else {
         setErrors(true);
