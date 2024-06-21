@@ -1,31 +1,128 @@
-import React, { useState } from "react";
-import Button from 'react-bootstrap/Button';
+import React, { useState, useEffect  } from "react";
+import { Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 import PropTypes from 'prop-types';
 import ProductItem from "../productItem/ProductItem";
-import { listProduct } from "../../data/Data";
+import ProductModal from "../productModal/ProductModal";
+
 
 const Products = ({carts}) => {
-  const [products, setProducts] = useState(listProduct);
-  const navigate = useNavigate();
+  const [productsApi, setProductsApi] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
-  
+  const navigate = useNavigate();
 
   const handleClick = () => {
     navigate("/");
   };
 
-  const editProduct = (id, updatedProduct) => {
-    setProducts(prevProducts => 
-      prevProducts.map(product =>
-        product.id === id ? { ...product, ...updatedProduct } : product
-      )
-    );
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:7054/Product', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProductsApi(data);
+        console.log("Se reciben los productos de la api");
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error fetching products:', error);
+    }
   };
 
-  const deleteProduct = (id) => {
-    setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+  const editProduct = async (updatedProduct) => {
+    try {
+      const response = await fetch('http://localhost:7054/Product/updateProduct', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedProduct),
+      });
+
+      if (response.ok) {
+        console.log("Producto actualizado exitosamente");
+        alert("Producto actualizado exitosamente");
+        fetchProducts();
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error updating product:', error);
+    }
+  };
+
+  const createProduct = async (newProduct) => {
+    try {
+      const response = await fetch(`http://localhost:7054/Product/create`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newProduct),
+      });
+
+      if (response.ok) {
+        console.log("Producto creado exitosamente");
+        alert("Producto creado exitosamente");
+        fetchProducts();
+        setShowModal(false);        
+        return;
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error creating product:', error);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:7054/Product/delete/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        console.log("Producto eliminado exitosamente");
+        alert("Producto eliminado exitosamente");
+        fetchProducts();
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error deleting product:', error);
+    }
   };
 
   // Función para agregar un producto al carrito
@@ -42,18 +139,26 @@ const Products = ({carts}) => {
     });
   };
 
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <div>
       <Navbar2 />
-      {products.length > 0 ? (
-        products.map((product) => (
+      <ProductModal 
+        show={showModal} 
+        handleClose={handleCloseModal} 
+        createProduct={createProduct} 
+      />
+      <Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
+      {productsApi.length > 0 ? (
+        productsApi.map((product) => (
           <ProductItem 
             key={product.id}
             id={product.id}
-            nombre={product.nombre}
-            descripcion={product.descripcion}
-            precio={product.precio}
-            imageFileName={product.imageFileName}
+            name={product.name}
+            description={product.description}
+            price={product.price}
+            image={product.image}
             stock={product.stock}
             onEditProduct={editProduct}
             onDeleteProduct={deleteProduct}

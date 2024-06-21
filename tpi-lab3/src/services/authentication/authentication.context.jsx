@@ -13,7 +13,7 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(userValue);
   const [userType, setUserType] = useState(userTypeValue)
 
-  const handleLogin = (email,role) => {
+  const handleLogin = (email, role) => {
     localStorage.setItem("user", JSON.stringify({ email }));
     setUser({ email });
     localStorage.setItem("userType", JSON.stringify({ role }));

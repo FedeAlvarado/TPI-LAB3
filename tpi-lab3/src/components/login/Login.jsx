@@ -62,29 +62,30 @@ const Login = () => {
 
     setErrors({ ...errors, exist: false });
 
-    // try {
-    //   const response = await fetch('http://localhost:7054/api/Api', {
-    //     method: 'POST',
-    //     headers: {
-    //       'accept':' */*',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ email, password })
-    //   });
+    try {
+      const response = await fetch('http://localhost:7054/User/validate', {
+        method: 'POST',
+        headers: {
+          'accept':' */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });      
 
-    //   const data = await response.json();
-
-      // if (response.ok) {
-        // handleLogin(email);
-        // navigate('/');
-    //   } else {
-    //     setErrors({ ...errors, apiError: false });
-    //     setErrorMsg("Credenciales incorrectas.");
-    //   }
-    // } catch (error) {
-    //   setErrors({ ...errors, apiError: false });
-    //   setErrorMsg("Error al conectar con el servidor.");
-    // }
+      if (response.ok) {
+        const data = await response.json();
+        handleLogin(email, data.type);
+        navigate('/');
+      } else {
+        setErrors({ ...errors, apiError: true });
+        setErrorMsg("Credenciales incorrectas.");
+        return;
+      }
+    } catch (error) {
+      setErrors({ ...errors, apiError: true });
+      setErrorMsg("Error al conectar con el servidor.");
+      return;
+    }
   };
 
   return (
@@ -145,7 +146,7 @@ const Login = () => {
 
           {formType === "register" && (
             <>
-              <NewUser />
+              <NewUser setForm={setFormType}/>
               <br />
               <a onClick={() => setFormType("login")} href="#">Volver a iniciar sesión</a>
             </>

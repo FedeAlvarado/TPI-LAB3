@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
+const ProductItem = ({ id, name, description, price, image, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
   const [showModal, setShowModal] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
     id,
-    nombre,
-    descripcion,
-    precio,
-    imageFileName,
+    name,
+    description,
+    price,
+    image,
     stock
   });
 
   const handleAddToCart = () => {
-    addToCart({ id, nombre, descripcion, precio, imageFileName, stock });
+    addToCart({ id, name, description, price, image, stock });
   };
 
   const handleDelete = () => {
@@ -22,24 +22,24 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
   };
 
   const handleEdit = () => {
-    onEditProduct(id, updatedProduct);
+    onEditProduct(updatedProduct);
     setShowModal(false);
   };
 
   const handleNombreChange = (e) => {
-    setUpdatedProduct({ ...updatedProduct, nombre: e.target.value });
+    setUpdatedProduct({ ...updatedProduct, name: e.target.value });
   };
 
   const handleDescripcionChange = (e) => {
-    setUpdatedProduct({ ...updatedProduct, descripcion: e.target.value });
+    setUpdatedProduct({ ...updatedProduct, description: e.target.value });
   };
 
   const handlePrecioChange = (e) => {
-    setUpdatedProduct({ ...updatedProduct, precio: parseFloat(e.target.value) });
+    setUpdatedProduct({ ...updatedProduct, price: parseFloat(e.target.value) });
   };
 
   const handleImageFileNameChange = (e) => {
-    setUpdatedProduct({ ...updatedProduct, imageFileName: e.target.value });
+    setUpdatedProduct({ ...updatedProduct, image: e.target.value });
   };
 
   const handleStockChange = (e) => {
@@ -51,15 +51,15 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
       <Card>
         <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
           <Card.Img 
-            src={imageFileName !== "" ? imageFileName : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
+            src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
             style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain' }}
             className="img-fluid"
           />
         </div>
         <Card.Body>
-          <Card.Title>{nombre}</Card.Title>
-          <Card.Subtitle>{descripcion}</Card.Subtitle>
-          <Card.Subtitle>{`$${precio}`}</Card.Subtitle>
+          <Card.Title>{name}</Card.Title>
+          <Card.Subtitle>{description}</Card.Subtitle>
+          <Card.Subtitle>{`$${price}`}</Card.Subtitle>
           <Card.Text>
             <strong>Stock: </strong>{stock}
           </Card.Text>
@@ -90,7 +90,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
               <Form.Label>Nombre</Form.Label>
               <Form.Control 
                 type="text" 
-                value={updatedProduct.nombre} 
+                value={updatedProduct.name} 
                 onChange={handleNombreChange} 
               />
             </Form.Group>
@@ -98,7 +98,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
               <Form.Label>Descripción</Form.Label>
               <Form.Control 
                 type="text" 
-                value={updatedProduct.descripcion} 
+                value={updatedProduct.description} 
                 onChange={handleDescripcionChange} 
               />
             </Form.Group>
@@ -106,7 +106,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
               <Form.Label>Precio</Form.Label>
               <Form.Control 
                 type="number" 
-                value={updatedProduct.precio} 
+                value={updatedProduct.price} 
                 onChange={handlePrecioChange} 
               />
             </Form.Group>
@@ -114,7 +114,7 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
               <Form.Label>URL de la Imagen</Form.Label>
               <Form.Control 
                 type="text" 
-                value={updatedProduct.imageFileName} 
+                value={updatedProduct.image} 
                 onChange={handleImageFileNameChange} 
               />
             </Form.Group>
@@ -139,10 +139,10 @@ const ProductItem = ({ id, nombre, descripcion, precio, imageFileName, stock, ad
 
 ProductItem.propTypes = {
   id: PropTypes.number.isRequired,
-  nombre: PropTypes.string.isRequired,
-  descripcion: PropTypes.string.isRequired,
-  precio: PropTypes.number.isRequired,
-  imageFileName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
   stock: PropTypes.number.isRequired,
   addToCart: PropTypes.func.isRequired,
   onEditProduct: PropTypes.func.isRequired,

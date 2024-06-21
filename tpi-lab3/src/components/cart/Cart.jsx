@@ -24,8 +24,30 @@ const Cart = ({ cart, setCart }) => {
   const handleQuantityChange = (id, quantity) => {
   }
 
-  const handleProceedToPayment = () => {
-    console.log("Proceder al pago:", cart);
+  const handleProceedToPayment = async () => {
+    try {
+      const response = await fetch('http://localhost:7054/Product/updateProducts', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cart),
+      });
+
+      if (response.ok) {
+        console.log("Productos actualizados exitosamente");
+        alert("Su pedido fue registrado exitosamente");
+        navigate('/dashboard');
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error updating products:', error);
+    }
   };
 
   return (
@@ -55,9 +77,9 @@ const Cart = ({ cart, setCart }) => {
             <tbody>
               {cart.map(product => (
                 <tr key={product.id}>
-                  <td><img src={product.imageFileName} alt={product.nombre} style={{ width: '100px', height: '100px' }} /></td>
-                  <td>{product.nombre}</td>
-                  <td>${product.precio}</td>
+                  <td><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px' }} /></td>
+                  <td>{product.name}</td>
+                  <td>${product.price}</td>
                   <td>
                     <input
                       type="number"
@@ -65,7 +87,7 @@ const Cart = ({ cart, setCart }) => {
                       onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value))}
                     />
                   </td>
-                  <td>${product.precio * product.quantity}</td>
+                  <td>${product.price * product.quantity}</td>
                   <td>
                     <Button variant="danger" onClick={() => handleRemove(product.id)}>Eliminar</Button>
                   </td>

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Button, Col, Form, Row, Card, Alert } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
-const NewUser = () => {
+const NewUser = ({setForm}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -90,11 +91,34 @@ const NewUser = () => {
     }
 
     try {
-      // Implementar registracion
-      console.log("Register new user");
+      var type="User";
+      const response = await fetch('http://localhost:7054/User/create', {
+        method: 'POST',
+        headers: {
+          'accept':' */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password, type })
+      });
 
+      if (response.ok) {
+        console.log("Register new user");
+        alert("Usuario registrado exitosamente");
+        setForm("login");
+        return;
+      } else if (response.status==409){
+        setErrors({ ...errors, apiError: true });
+        setErrorMsg("El usuario ya se encuentra registrado.");
+        return;
+      } else {
+        setErrors({ ...errors, apiError: true });
+        setErrorMsg("No se pudo registrar el usuario.");
+        return;
+      }
     } catch (error) {
+      setErrors({ ...errors, apiError: true });
       setErrorMsg("Error al conectar con el servidor.");
+      return;
     }
   };
 
@@ -177,7 +201,7 @@ const NewUser = () => {
         </Col>
       </Form.Group>
 
-      {(errors.firstName || errors.lastName || errors.email || errors.password || errors.confirmPassword || errors.emailExists) && (
+      {(errors.firstName || errors.lastName || errors.email || errors.password || errors.confirmPassword || errors.emailExists || errors.apiError) && (
         <div className="mt-1 mb-3">
           <Alert variant="danger">{errorMsg}</Alert>
         </div>
@@ -186,6 +210,10 @@ const NewUser = () => {
       <Button onClick={registerHandler}>Registrarse</Button>
     </Form>
   );
+};
+
+NewUser.propTypes = {
+  setFormType: PropTypes.func.isRequired,
 };
 
 export default NewUser;
