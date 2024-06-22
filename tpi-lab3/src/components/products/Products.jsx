@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
@@ -6,14 +6,17 @@ import PropTypes from 'prop-types';
 import ProductItem from "../productItem/ProductItem";
 import ProductModal from "../productModal/ProductModal";
 import './products.css';
+import { useContext } from "react";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { Container } from "react-bootstrap";
 
-
-const Products = ({carts}) => {
+const Products = ({ carts }) => {
   const [productsApi, setProductsApi] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
+  const { userType } = useContext(AuthenticationContext);
+
 
   const handleClick = () => {
     navigate("/");
@@ -146,13 +149,13 @@ const Products = ({carts}) => {
   return (
     <>
       <Navbar2 />
-      <ProductModal 
-        show={showModal} 
-        handleClose={handleCloseModal} 
-        createProduct={createProduct} 
+      <ProductModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        createProduct={createProduct}
       />
-      <Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
-  
+      {userType.role === "admin" && (<Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
+    )}
       {productsApi.length > 0 ? (
         <div className="product-grid">
           {productsApi.map((product) => (

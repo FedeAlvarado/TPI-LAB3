@@ -7,8 +7,6 @@ import Searcher from "../searcher/Searcher";
 import './NavBar.css';
 import Banner from '../banner/Banner';
 
-
-
 const Navbar2 = ({ listProduct }) => {
   const navigate = useNavigate();
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -22,18 +20,16 @@ const Navbar2 = ({ listProduct }) => {
 
   const handleOffcanvasToggle = () => {
     setShowOffcanvas(!showOffcanvas);
-
   };
 
   const { userType } = useContext(AuthenticationContext);
-
 
   return (
     <>
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} bg="primary" data-bs-theme="dark" className="fixed-top w-100">
           <Container fluid>
-          <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white">
+            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white">
               <FaTools fontSize={"28px"} className="me-2" /> Ferretotal
             </Button>
             <Searcher products={listProduct} />
@@ -62,14 +58,14 @@ const Navbar2 = ({ listProduct }) => {
                     <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
-                    {userType === "admin" &&  (<Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>)}
-                    {/* <Nav.Link  onClick={handleClick} to="/superadmin">Administradores</Nav.Link> */}
+                    {userType.role === "admin" && (
+                      <Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
+                    )}
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
             </div>
           </Container>
-
         </Navbar>
       ))}
     </>
