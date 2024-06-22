@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import ProductItem from "../productItem/ProductItem";
 import ProductModal from "../productModal/ProductModal";
 import './products.css';
+import { Container } from "react-bootstrap";
 
 
 const Products = ({carts}) => {
@@ -143,7 +144,7 @@ const Products = ({carts}) => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div className="product-grid">
+    <>
       <Navbar2 />
       <ProductModal 
         show={showModal} 
@@ -151,27 +152,33 @@ const Products = ({carts}) => {
         createProduct={createProduct} 
       />
       <Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
+  
       {productsApi.length > 0 ? (
-        productsApi.map((product) => (
-          <ProductItem 
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            description={product.description}
-            price={product.price}
-            image={product.image}
-            stock={product.stock}
-            onEditProduct={editProduct}
-            onDeleteProduct={deleteProduct}
-            addToCart={addToCart} 
-          />
-        ))
+        <div className="product-grid">
+          {productsApi.map((product) => (
+            <Container style={{ width: '1280px' }}>
+              <ProductItem
+                id={product.id}
+                name={product.name}
+                description={product.description}
+                price={product.price}
+                image={product.image}
+                stock={product.stock}
+                onEditProduct={editProduct}
+                onDeleteProduct={deleteProduct}
+                addToCart={addToCart} 
+              />
+            </Container>
+          ))}
+        </div>
       ) : (
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
+  
       <Button onClick={handleClick}>Volver al inicio</Button>
-    </div>
+    </>
   );
+  
 };
 
 Products.propTypes = {

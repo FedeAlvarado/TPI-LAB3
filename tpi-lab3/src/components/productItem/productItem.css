@@ -1,10 +1,12 @@
   .product-card {
     transition: box-shadow 0.3s ease;
-    width: 18rem;
+    width: 17rem;
+    height: 510px;
+    align-items: flex-start;
   }
   
   .product-card:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 10px #00000033;
   }
   
   .out-of-stock {

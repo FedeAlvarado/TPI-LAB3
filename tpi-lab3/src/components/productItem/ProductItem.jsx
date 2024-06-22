@@ -57,7 +57,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           variant="top"
           src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
           className="img-fluid"
-          style={{ maxWidth: '100%', objectFit: 'contain', height: '200px' }}
+          style={{ maxWidth: '100%', objectFit: 'contain', height: '160px', marginBottom: '25px' }}
         />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
