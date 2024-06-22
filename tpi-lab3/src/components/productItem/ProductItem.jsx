@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import './productItem.css';
+import { useContext } from 'react';
+import { AuthenticationContext } from '../../services/authentication/authentication.context';
 
 const ProductItem = ({ id, name, description, price, image, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
   const [showModal, setShowModal] = useState(false);
@@ -13,6 +15,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
     image,
     stock
   });
+  const { userType } = useContext(AuthenticationContext);
 
   const handleAddToCart = () => {
     if (stock > 0) {
@@ -53,7 +56,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
     <div>
       <Card className="product-card">
         {stock === 0 && <div className="out-of-stock">Sin stock</div>}
-        <Card.Img 
+        <Card.Img
           variant="top"
           src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
           className="img-fluid"
@@ -69,11 +72,11 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart} disabled={stock === 0}>
             AGREGAR AL CARRITO
           </Button>
-          {isLoggedIn && (
+          {userType.role === "admin" && (
             <div className="admin-options" style={{ marginTop: '10px' }}>
-              <Button 
-                variant="primary" 
-                size="sm" 
+              <Button
+                variant="primary"
+                size="sm"
                 style={{ marginRight: '5px' }}
                 onClick={() => setShowModal(true)}>
                 Editar
@@ -83,60 +86,62 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           )}
         </Card.Body>
       </Card>
+      {userType.role === "admin" && (
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Editar Producto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formProductName">
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={updatedProduct.name}
+                  onChange={handleNombreChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formProductDescription">
+                <Form.Label>Descripción</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={updatedProduct.description}
+                  onChange={handleDescripcionChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formProductPrice">
+                <Form.Label>Precio</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={updatedProduct.price}
+                  onChange={handlePrecioChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formProductImage">
+                <Form.Label>URL de la Imagen</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={updatedProduct.image}
+                  onChange={handleImageFileNameChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formProductStock">
+                <Form.Label>Stock</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={updatedProduct.stock}
+                  onChange={handleStockChange}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>Cancelar</Button>
+            <Button variant="primary" onClick={handleEdit}>Guardar Cambios</Button>
+          </Modal.Footer>
+        </Modal>
+      )}
 
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Producto</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formProductName">
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={updatedProduct.name} 
-                onChange={handleNombreChange} 
-              />
-            </Form.Group>
-            <Form.Group controlId="formProductDescription">
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={updatedProduct.description} 
-                onChange={handleDescripcionChange} 
-              />
-            </Form.Group>
-            <Form.Group controlId="formProductPrice">
-              <Form.Label>Precio</Form.Label>
-              <Form.Control 
-                type="number" 
-                value={updatedProduct.price} 
-                onChange={handlePrecioChange} 
-              />
-            </Form.Group>
-            <Form.Group controlId="formProductImage">
-              <Form.Label>URL de la Imagen</Form.Label>
-              <Form.Control 
-                type="text" 
-                value={updatedProduct.image} 
-                onChange={handleImageFileNameChange} 
-              />
-            </Form.Group>
-            <Form.Group controlId="formProductStock">
-              <Form.Label>Stock</Form.Label>
-              <Form.Control 
-                type="number" 
-                value={updatedProduct.stock} 
-                onChange={handleStockChange} 
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancelar</Button>
-          <Button variant="primary" onClick={handleEdit}>Guardar Cambios</Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };
