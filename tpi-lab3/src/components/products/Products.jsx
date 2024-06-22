@@ -5,6 +5,7 @@ import Navbar2 from "../navbar/Navbar";
 import PropTypes from 'prop-types';
 import ProductItem from "../productItem/ProductItem";
 import ProductModal from "../productModal/ProductModal";
+import './products.css';
 
 
 const Products = ({carts}) => {
@@ -142,7 +143,7 @@ const Products = ({carts}) => {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div>
+    <div className="product-grid">
       <Navbar2 />
       <ProductModal 
         show={showModal} 

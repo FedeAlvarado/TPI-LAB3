@@ -1,0 +1,21 @@
+  .product-card {
+    transition: box-shadow 0.3s ease;
+    width: 18rem;
+  }
+  
+  .product-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .out-of-stock {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgb(250, 26, 26);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+  
