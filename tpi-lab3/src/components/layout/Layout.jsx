@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Navbar2 />
-      <Container style={{ marginTop: '20px', marginBottom: '100px' }}>
+      <Container style={{ marginTop: '20px', marginBottom: '100px', width: '1280px' }}>
         {children} 
       </Container>
       <Footer />
