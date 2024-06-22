@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { FaTools, FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import Searcher from "../searcher/Searcher";
+import './NavBar.css';
+import Banner from '../banner/Banner';
 
 
 
@@ -55,18 +57,19 @@ const Navbar2 = ({ listProduct }) => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link onClick={handleClick} to="/dashboard">Inicio</Nav.Link>
-                    <Nav.Link onClick={handleClick} to="/login">Log-in</Nav.Link>
-                    <Nav.Link onClick={handleClick} to="/products">Productos</Nav.Link>
-                    <Nav.Link onClick={handleClick} to="/cart">Carrito</Nav.Link>
-                    <Nav.Link onClick={handleClick} to="/contact">Contacto</Nav.Link>
-                    {/* {userType === "superadmin" &&  (<Nav.Link onClick={handleClick} to="/superadmin">Administradores</Nav.Link>)} */}
-                    <Nav.Link onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/login">Log-in</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/dashboard">Inicio</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
+                    {userType === "admin" &&  (<Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>)}
+                    {/* <Nav.Link  onClick={handleClick} to="/superadmin">Administradores</Nav.Link> */}
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>
             </div>
           </Container>
+
         </Navbar>
       ))}
     </>

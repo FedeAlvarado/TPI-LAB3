@@ -1,0 +1,23 @@
+.subscription-banner {
+    background-color: #007bff; /* Color de fondo similar al de la imagen */
+    padding: 20px;
+  }
+  
+  .subscription-banner h2 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+  
+  .subscription-banner p {
+    margin: 0;
+    font-size: 1em;
+  }
+  
+  .input-group .form-control {
+    border-radius: 0.25rem 0 0 0.25rem;
+  }
+  
+  .input-group .btn {
+    border-radius: 0 0.25rem 0.25rem 0;
+  }
+  

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container} from 'react-bootstrap';
+import { Container,Row,Col,Form} from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
@@ -13,9 +13,15 @@ const Footer = () => {
       };
       
     return (
-        <footer className="footer fixed-bottom w-100">
-                <p>FerreTotal CUIT: 30-91234567-8 - Av. Rivadavia 1234 CABA. Correo electrónico: info@ferretotal.com.ar Defensa de las y los Consumidores. Para reclamos: <a onClick={handleClick} to="/contact" href="#">Ingrese aquí.</a></p>
-        </footer>
+        <Container fluid className="subscription-banner text-white fixed-bottom w-100">
+        <Row className="align-items-center">
+          <Col >
+            <h2>CUIT: 30-54808315-6 - Nombre comercial: FERRETOTAL - Paysandú 1842 CABA. Correo electrónico de servicio de atención al consumidor: info@ferretotal.com.ar.</h2>
+            <p>¡Y enterate las novedades del día!</p>
+          </Col>
+        </Row>
+      </Container>
+        
     )
 }
 
