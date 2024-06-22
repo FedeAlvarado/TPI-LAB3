@@ -1,27 +1,29 @@
 import React from "react";
 import PropTypes from 'prop-types'
 import { Carousel } from "react-bootstrap";
+import Banner from "../banner/Banner";
 
 const Carrousel = ({ listProducts }) => {
+
   return (
-    <Carousel data-bs-theme="dark">
+    <div>
+      <Carousel fade interval={2000} data-bs-theme="dark">
     {listProducts.map((product, index) => (
       <Carousel.Item key={index}>
-        <img
-          className="d-block w-100"
-          src={product.imageFileName} // Asumiendo que cada producto tiene un campo imageFileName
-          alt={product.nombre}
-        />
-        <Carousel.Caption>
-          <h3>{product.nombre}</h3>
-
-        </Carousel.Caption>
+          <a href={`/products/${product.id}`}>
+            <img
+              className="d-block w-100"
+              src={product.imageFileName}
+              alt={product.nombre}
+            />
+          </a>
       </Carousel.Item>
-    ))}
+    ))}; 
   </Carousel>
-
+  <Banner/>
+    </div>
+    
    )
-  
 };
 Carrousel.propTypes = {
   listProducts: PropTypes.array.isRequired

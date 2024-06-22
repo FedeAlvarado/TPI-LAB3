@@ -1,0 +1,28 @@
+.nav-link {
+    color: #007bff;
+    font-weight: bold;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    border: 1px solid transparent;  /* Borde inicial transparente */
+    border-radius: 5px;             /* Opcional: redondear bordes */
+    transition: border-color 0.3s ease; /* Suave transición al cambiar el color del borde */
+}
+
+.nav-link:hover {
+    border-color: #007bff;          /* Color del borde al pasar el mouse */
+}
+
+.nav-adm {
+    color: #ff0000;
+    font-weight: bold;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid transparent;  /* Borde inicial transparente */
+    border-radius: 5px;             /* Opcional: redondear bordes */
+    transition: border-color 0.3s ease; /* Suave transición al cambiar el color del borde */
+}
+
+.nav-adm:hover {
+    border-color: #ff0000;          /* Color del borde al pasar el mouse */
+}
