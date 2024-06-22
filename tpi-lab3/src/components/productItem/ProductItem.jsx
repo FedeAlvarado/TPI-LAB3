@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import './productItem.css';
 
 const ProductItem = ({ id, name, description, price, image, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
   const [showModal, setShowModal] = useState(false);
@@ -14,7 +15,9 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
   });
 
   const handleAddToCart = () => {
-    addToCart({ id, name, description, price, image, stock });
+    if (stock > 0) {
+      addToCart({ id, name, description, price, image, stock });
+    }
   };
 
   const handleDelete = () => {
@@ -48,14 +51,14 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
 
   return (
     <div>
-      <Card>
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: '200px' }}>
-          <Card.Img 
-            src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
-            style={{ maxWidth: '100px', maxHeight: '100px', objectFit: 'contain' }}
-            className="img-fluid"
-          />
-        </div>
+      <Card className="product-card">
+        {stock === 0 && <div className="out-of-stock">Sin stock</div>}
+        <Card.Img 
+          variant="top"
+          src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
+          className="img-fluid"
+          style={{ maxWidth: '100%', objectFit: 'contain', height: '200px' }}
+        />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
           <Card.Subtitle>{description}</Card.Subtitle>
@@ -63,7 +66,9 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           <Card.Text>
             <strong>Stock: </strong>{stock}
           </Card.Text>
-          <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart}>AGREGAR AL CARRITO</Button>
+          <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart} disabled={stock === 0}>
+            AGREGAR AL CARRITO
+          </Button>
           {isLoggedIn && (
             <div className="admin-options" style={{ marginTop: '10px' }}>
               <Button 
