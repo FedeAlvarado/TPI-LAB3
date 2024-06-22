@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Card, Alert } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const NewUser = ({setForm}) => {
-  const [firstName, setFirstName] = useState("");
+  const [name, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +11,7 @@ const NewUser = ({setForm}) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [errors, setErrors] = useState({
-    firstName: false,
+    name: false,
     lastName: false,
     email: false,
     password: false,
@@ -26,7 +26,7 @@ const NewUser = ({setForm}) => {
   const confirmPasswordRef = useRef(null);
 
   const changeFirstNameHandler = (e) => {
-    setErrors({ ...errors, firstName: false });
+    setErrors({ ...errors, name: false });
     setFirstName(e.target.value);
   };
 
@@ -53,8 +53,8 @@ const NewUser = ({setForm}) => {
   const registerHandler = async (e) => {
     e.preventDefault();
 
-    if (!firstName) {
-      setErrors({ ...errors, firstName: true });
+    if (!name) {
+      setErrors({ ...errors, name: true });
       setErrorMsg("Debe completar el campo nombre");
       firstNameRef.current.focus();
       return;
@@ -98,7 +98,7 @@ const NewUser = ({setForm}) => {
           'accept':' */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, type })
+        body: JSON.stringify({name, lastName, email, password, type })
       });
 
       if (response.ok) {
@@ -136,7 +136,7 @@ const NewUser = ({setForm}) => {
             placeholder="Ingrese su nombre"
             required
             onChange={changeFirstNameHandler}
-            value={firstName}
+            value={name}
             ref={firstNameRef} />
         </Col>
       </Form.Group>
@@ -201,7 +201,7 @@ const NewUser = ({setForm}) => {
         </Col>
       </Form.Group>
 
-      {(errors.firstName || errors.lastName || errors.email || errors.password || errors.confirmPassword || errors.emailExists || errors.apiError) && (
+      {(errors.name || errors.lastName || errors.email || errors.password || errors.confirmPassword || errors.emailExists || errors.apiError) && (
         <div className="mt-1 mb-3">
           <Alert variant="danger">{errorMsg}</Alert>
         </div>
