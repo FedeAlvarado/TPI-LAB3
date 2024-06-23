@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Offcanvas, Navbar, Nav, Form, Container, Button } from 'react-bootstrap';
+import { Offcanvas, Navbar, Nav, Modal, Container, Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { FaTools, FaUserCircle, FaShoppingCart } from "react-icons/fa";
@@ -10,6 +10,9 @@ import Banner from '../banner/Banner';
 const Navbar2 = ({ listProduct }) => {
   const navigate = useNavigate();
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [showOut, setShowOut] = useState(false);
+
+  const { userType, logged, handleLogout } = useContext(AuthenticationContext);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -22,7 +25,10 @@ const Navbar2 = ({ listProduct }) => {
     setShowOffcanvas(!showOffcanvas);
   };
 
-  const { userType } = useContext(AuthenticationContext);
+  const handleOut = () => {
+    handleLogout();
+    setShowOut(false);
+  };
 
   return (
     <>
@@ -53,13 +59,19 @@ const Navbar2 = ({ listProduct }) => {
                 </Offcanvas.Header>
                 <Offcanvas.Body>
                   <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Nav.Link className='nav-link' onClick={handleClick} to="/login">Log-in</Nav.Link>
+
+                  {logged ? (
+                      <Nav.Link className='nav-link' onClick={() => setShowOut(true)}>Log-out</Nav.Link>
+                    ) : (
+                      <Nav.Link className='nav-link' onClick={handleClick} to="/login">Log-in</Nav.Link>
+                    )}
+
                     <Nav.Link className='nav-link' onClick={handleClick} to="/dashboard">Inicio</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Log-out</Nav.Link>
-                    {(userType.role === "admin" || userType.role === "super") && (
+                    {(userType === "admin" || userType === "super") && (
                       <Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
                     )}
 
@@ -70,6 +82,23 @@ const Navbar2 = ({ listProduct }) => {
           </Container>
         </Navbar>
       ))}
+
+      <Modal show={showOut} onHide={() => setShowOut(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Log Out</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro de que deseas cerrar sesión?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowOut(false)}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={handleOut}>
+            Salir
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
