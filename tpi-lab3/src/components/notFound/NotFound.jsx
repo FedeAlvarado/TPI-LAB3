@@ -2,7 +2,6 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { TbError404Off } from "react-icons/tb";
 
-
 const NotFound = () => {
   const navigate = useNavigate();
 
@@ -12,11 +11,14 @@ const NotFound = () => {
 
   return (
     <>
-    <TbError404Off fontSize={"500px"} fluid/>
+      <TbError404Off
+        style={{ fontSize: "10rem"}}
+        fluid
+      />
 
-      <div>
-        <h1>Not found</h1>
-        </div>
+      <div style={{ margin: "40px" }}>
+        <h2>¡Página no encontrada!</h2>
+      </div>
 
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>

@@ -29,7 +29,7 @@ const Navbar2 = ({ listProduct }) => {
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} bg="primary" data-bs-theme="dark" className="fixed-top w-100">
           <Container fluid>
-            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white">
+            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white" style={{ fontFamily: 'Arial', fontSize: '140%', textDecoration: 'none' }}>
               <FaTools fontSize={"28px"} className="me-2" /> Ferretotal
             </Button>
             <Searcher products={listProduct} />
