@@ -1,0 +1,22 @@
+.carrousel-container {
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.carrousel-container .carousel {
+  width: 100%;
+  height: auto;
+}
+
+.carrousel-container .carousel-inner .carousel-item img {
+  width: 100%; 
+  height: auto; 
+}
+
+.carrousel-products {
+  max-width: 30%; 
+  max-height: 30%; 
+  margin: 0 auto;
+  margin-top: 20px;
+}

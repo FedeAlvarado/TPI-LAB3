@@ -29,7 +29,7 @@ const Navbar2 = ({ listProduct }) => {
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} bg="primary" data-bs-theme="dark" className="fixed-top w-100">
           <Container fluid>
-            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white">
+            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white" style={{ fontFamily: 'Arial', fontSize: '140%', textDecoration: 'none' }}>
               <FaTools fontSize={"28px"} className="me-2" /> Ferretotal
             </Button>
             <Searcher products={listProduct} />
@@ -58,9 +58,11 @@ const Navbar2 = ({ listProduct }) => {
                     <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Log-out</Nav.Link>
                     {userType.role === "admin" && (
                       <Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
                     )}
+
                   </Nav>
                 </Offcanvas.Body>
               </Navbar.Offcanvas>

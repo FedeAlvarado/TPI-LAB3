@@ -1,0 +1,17 @@
+.cart-table {
+    width: 1080px;
+    background-color: white;
+    margin: 60px auto;
+    padding: 20px;
+    border-radius: 5%;
+    text-align: center;
+  }
+  
+  .cart-row {
+    padding: 10px 0; 
+    margin: 10px;
+  }
+
+  .cart-row td {
+    vertical-align: middle;
+  }
