@@ -1,9 +1,11 @@
 import React, { useState, useEffect  } from "react";
 import UserItem from '../userItem/UserItem';
 import { Button } from 'react-bootstrap';
+import UpdateUser from '../updateUser/UpdateUser';
 
 const Users = () => {
   const [users, setUser] = useState([]);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -31,6 +33,37 @@ const Users = () => {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
       console.error('Error fetching users:', error);
+    }
+  };
+
+  const createUsers = async (createUser) => {
+    try {
+      const response = await fetch('http://localhost:7054/User/create', {
+        method: 'POST',
+        headers: {
+          'accept':' */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(createUser)
+      });
+  
+      if (response.ok) {
+        console.log("Register new user");
+        alert("Usuario registrado exitosamente");
+        fetchUsers();
+      } else if (response.status==409){
+        setErrors(true);
+        setErrorMsg("El usuario ya se encuentra registrado.");
+        return;
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+        return;
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error creating user:', error);
     }
   };
 
@@ -87,7 +120,7 @@ const Users = () => {
 
   return (
     <div>
-      <Button>AGREGAR USUARIO</Button>
+      <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
 
       {users.length > 0 ? (
         users.map((user, index) => (
@@ -106,6 +139,15 @@ const Users = () => {
       ) : (
         <p>USUARIO NO ENCONTRADO</p>
       )}
+
+      <UpdateUser
+        show={showUpdate}
+        handleClose={() => setShowUpdate(false)}
+        user={""}
+        onUpdateUser={updateUser}
+        onCreateUser={createUsers}
+      />
+
     </div>
   )
 }
