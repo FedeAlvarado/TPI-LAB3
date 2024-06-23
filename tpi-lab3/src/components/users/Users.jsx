@@ -23,7 +23,7 @@ const Users = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
+        setUser(data);
         console.log("Usuarios recibidos de la API");
       } else {
         setErrors(true);
