@@ -154,7 +154,7 @@ const Products = ({ carts }) => {
         handleClose={handleCloseModal}
         createProduct={createProduct}
       />
-      {userType.role === "admin" && (<Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
+      {userType === "admin" && (<Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
     )}
       {productsApi.length > 0 ? (
         <div className="product-grid">

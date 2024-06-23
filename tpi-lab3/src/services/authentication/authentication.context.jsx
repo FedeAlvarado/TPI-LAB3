@@ -11,13 +11,15 @@ const userTypeValue = userTypeValueString ? JSON.parse(userTypeValueString) : nu
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [user, setUser] = useState(userValue);
-  const [userType, setUserType] = useState(userTypeValue)
+  const [userType, setUserType] = useState(userTypeValue);
+  const [logged, setLogged] = useState(false);
 
   const handleLogin = (email, role) => {
     localStorage.setItem("user", JSON.stringify({ email }));
-    setUser({ email });
+    setUser( email );
     localStorage.setItem("userType", JSON.stringify({ role }));
-    setUserType({role});
+    setUserType(role);
+    setLogged(true);
   };
 
   const handleLogout = () => {
@@ -25,10 +27,11 @@ export const AuthenticationContextProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("userType");
     setUserType(null);
+    setLogged(false);
   };
 
   return (
-    <AuthenticationContext.Provider value={{ user,userType, handleLogin, handleLogout }}>
+    <AuthenticationContext.Provider value={{ user, userType, logged, handleLogin, handleLogout }}>
       {children}
     </AuthenticationContext.Provider>
   );
