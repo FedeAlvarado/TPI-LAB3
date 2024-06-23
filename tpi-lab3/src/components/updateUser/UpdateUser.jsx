@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
+const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => {
+    const isNewUser = !user || !user.id;
     const [formData, setFormData] = useState({
-        id: user.id,
-        name: user.name,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
-        type: user.type,
+        id: user?.id || '',
+        name: user?.name || '',
+        lastName: user?.lastName || '',
+        email: user?.email || '',
+        password: user?.password || '',
+        type: user?.type || '',
     });
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                id: user.id,
+                name: user.name,
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password,
+                type: user.type,
+            });
+        }
+    }, [user]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,14 +33,31 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onUpdateUser(user.id, formData);
+
+        if(isNewUser){
+            var newUser={
+                name: formData.name,
+                lastName: formData.lastName,
+                email: formData.email,
+                password: formData.password,
+                type: formData.type,
+            }
+            onCreateUser(newUser);
+            setFormData({
+                id: "", name: "", lastName: "",
+                email: "", password: "", type: ""
+              });
+        }
+        else
+            onUpdateUser(user.id, formData);
+
         handleClose();
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Actualizar Usuario</Modal.Title>
+                <Modal.Title>{isNewUser ? 'Crear Usuario' : 'Actualizar Usuario'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -35,6 +66,7 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Control
                             type="text"
                             name="name"
+                            placeholder="Ingrese el nombre"
                             value={formData.name}
                             onChange={handleChange}
                             required
@@ -45,6 +77,7 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Control
                             type="text"
                             name="lastName"
+                            placeholder="Ingrese el apellido"
                             value={formData.lastName}
                             onChange={handleChange}
                             required
@@ -55,6 +88,7 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Control
                             type="email"
                             name="email"
+                            placeholder="Ingrese el e-mail"
                             value={formData.email}
                             onChange={handleChange}
                             required
@@ -65,6 +99,7 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Control
                             type="password"
                             name="password"
+                            placeholder="Ingrese la contraseña"
                             value={formData.password}
                             onChange={handleChange}
                             required
@@ -75,6 +110,7 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                         <Form.Control
                             type="text"
                             name="type"
+                            placeholder="Ingrese el rol"
                             value={formData.type}
                             onChange={handleChange}
                             required
@@ -82,9 +118,9 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
                     </Form.Group>
                     <span className="mx-2"></span> 
                     <div className="d-grid gap-2">
-                    <Button variant="success" type="submit">
-                        Actualizar
-                    </Button>
+                        <Button variant="success" type="submit">
+                            {isNewUser ? 'Crear' : 'Actualizar'}
+                        </Button>
                     </div>
                 </Form>
             </Modal.Body>
@@ -95,13 +131,20 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser }) => {
 UpdateUser.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string,
+        lastName: PropTypes.string,
+        email: PropTypes.string,
+        password: PropTypes.string,
+        type: PropTypes.string,
+    }),
     onUpdateUser: PropTypes.func.isRequired,
+    onCreateUser: PropTypes.func.isRequired,
+};
+
+UpdateUser.defaultProps = {
+    user: {},
 };
 
 export default UpdateUser;
