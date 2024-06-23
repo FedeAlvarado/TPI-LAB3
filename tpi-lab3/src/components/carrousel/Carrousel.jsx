@@ -1,15 +1,21 @@
-import React from "react";
+import{ React} from "react";
 import PropTypes from "prop-types";
 import { Carousel, Container } from "react-bootstrap";
 import Banner from "../banner/Banner";
 import { carrouselImages } from "../../data/Data";
 import "./carrousel.css";
+import { useContext } from "react";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
+
 
 const Carrousel = ({ listProducts }) => {
+
+const { userType } = useContext(AuthenticationContext);
+
   return (
     <div>
       <div className="carrousel-container">
-        <Carousel fade interval={4000} data-bs-theme="dark">
+        <Carousel interval={4000} >
           {carrouselImages.map((image, index) => (
             <Carousel.Item key={index}>
               <img
@@ -35,9 +41,9 @@ const Carrousel = ({ listProducts }) => {
             </Carousel.Item>
           ))}
         </Carousel>
+        </div>
+        {userType.role === "user" && ( <Banner/>)}
       </div>
-      {/* <Banner /> */}
-    </div>
   );
 };
 

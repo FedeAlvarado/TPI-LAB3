@@ -15,7 +15,7 @@ const Banner = () => {
   };
 
   return (
-    <Container fluid className="subscription-banner text-white fixed w-100">
+    <Container fluid className="subscription-banner text-white w-100">
       <Row className="align-items-center">
         <Col md={6}>
           <h2>RECIBÍ LAS MEJORES OFERTAS</h2>

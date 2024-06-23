@@ -10,13 +10,19 @@
 }
 
 .carrousel-container .carousel-inner .carousel-item img {
-  width: 100%; 
-  height: auto; 
+  width: 100%;
+  height: auto;
 }
 
 .carrousel-products {
-  max-width: 30%; 
-  max-height: 30%; 
+  max-width: 30%;
+  max-height: 30%;
   margin: 0 auto;
   margin-top: 20px;
+}
+
+/* CSS para ocultar las flechas */
+.carrousel-container .carousel-control-prev,
+.carrousel-container .carousel-control-next{
+  display: none !important;
 }

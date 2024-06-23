@@ -71,7 +71,7 @@ const Navbar2 = ({ listProduct }) => {
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Log-out</Nav.Link>
-                    {userType === "admin" && (
+                    {(userType === "admin" || userType === "super") && (
                       <Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
                     )}
 
