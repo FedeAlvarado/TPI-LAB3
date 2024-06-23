@@ -91,7 +91,7 @@ const NewUser = ({setForm}) => {
     }
 
     try {
-      var type="User";
+      var type="user";
       const response = await fetch('http://localhost:7054/User/create', {
         method: 'POST',
         headers: {
