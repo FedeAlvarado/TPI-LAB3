@@ -148,14 +148,8 @@ const Users = () => {
   return (
     <div>
       <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
-
-      {showNewUserForm ? (
-        <NewUser setForm={setShowNewUserForm} onAddUser={addUser} />
-      ) : (
-        users.length > 0 ? (
-          <Row xs={1} md={2} lg={3} className="g-5">
-            {users.map((user, index) => (
-              <Col key={index}>
+        {users.length > 0 ? (
+            users.map((user) => (
                 <UserItem
                   id={user.id}
                   name={user.name}
@@ -166,14 +160,13 @@ const Users = () => {
                   onDeleteUser={deleteUser}
                   onUpdateUser={updateUser}
                 />
-              </Col>
-            ))}
-          </Row>
+            
+            ))
         ) : (
           <p>NO SE HAN ENCONTRADO USUARIOS</p>
-        )
-      )}
-
+        )}
+      
+      
       <UpdateUser
         show={showUpdate}
         handleClose={() => setShowUpdate(false)}
@@ -186,9 +179,5 @@ const Users = () => {
   )
 }
 
-      {errors && <div className="alert alert-danger">{errorMsg}</div>}
-    </div>
-  );
-};
 
 export default Users;
