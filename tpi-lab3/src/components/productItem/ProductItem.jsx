@@ -72,7 +72,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart} disabled={stock === 0}>
             AGREGAR AL CARRITO
           </Button>
-          {userType.role === "admin" && (
+          {(userType.role === "admin" || userType.role === "super") && (
             <div className="admin-options" style={{ marginTop: '10px' }}>
               <Button
                 variant="primary"
@@ -86,7 +86,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
           )}
         </Card.Body>
       </Card>
-      {userType.role === "admin" && (
+      {(userType.role === "admin" || userType.role === "super") && (
         <Modal show={showModal} onHide={() => setShowModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>Editar Producto</Modal.Title>

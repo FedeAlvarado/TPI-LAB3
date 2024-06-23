@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect  } from "react";
 import UserItem from '../userItem/UserItem';
 import { Button } from 'react-bootstrap';
 import UpdateUser from '../updateUser/UpdateUser';
@@ -23,8 +23,8 @@ const Users = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
-        console.log("Usuarios recibidos de la API");
+        setUser(data);
+        console.log("Se reciben los usuarios de la api");
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -32,7 +32,7 @@ const Users = () => {
     } catch (error) {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
-      console.error('Error al obtener usuarios:', error);
+      console.error('Error fetching users:', error);
     }
   };
 
@@ -88,7 +88,7 @@ const Users = () => {
     } catch (error) {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
-      console.error('Error al eliminar usuario:', error);
+      console.error('Error deleting user:', error);
     }
   };
 
@@ -114,34 +114,7 @@ const Users = () => {
     } catch (error) {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
-      console.error('Error al actualizar usuario:', error);
-    }
-  };
-
-  const addUser = async (newUser) => {
-    try {
-      const response = await fetch('http://localhost:7054/User/create', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(newUser),
-      });
-
-      if (response.ok) {
-        console.log("Usuario registrado exitosamente");
-        alert("Usuario registrado exitosamente");
-        setShowNewUserForm(false);
-        fetchUsers();
-      } else if (response.status === 409) {
-        setErrorMsg("El usuario ya se encuentra registrado.");
-      } else {
-        setErrorMsg("No se pudo registrar el usuario.");
-      }
-    } catch (error) {
-      setErrorMsg("Error al conectar con el servidor.");
-      console.error('Error al agregar usuario:', error);
+      console.error('Error updating user:', error);
     }
   };
 
@@ -149,29 +122,22 @@ const Users = () => {
     <div>
       <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
 
-      {showNewUserForm ? (
-        <NewUser setForm={setShowNewUserForm} onAddUser={addUser} />
+      {users.length > 0 ? (
+        users.map((user, index) => (
+          <UserItem
+            key={index}
+            id={user.id}
+            name={user.name}
+            lastName={user.lastName}
+            email={user.email}
+            password={user.password}
+            type={user.type}
+            onDeleteUser={deleteUser}
+            onUpdateUser={updateUser}
+          />
+        ))
       ) : (
-        users.length > 0 ? (
-          <Row xs={1} md={2} lg={3} className="g-5">
-            {users.map((user, index) => (
-              <Col key={index}>
-                <UserItem
-                  id={user.id}
-                  name={user.name}
-                  lastName={user.lastName}
-                  email={user.email}
-                  password={user.password}
-                  type={user.type}
-                  onDeleteUser={deleteUser}
-                  onUpdateUser={updateUser}
-                />
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <p>NO SE HAN ENCONTRADO USUARIOS</p>
-        )
+        <p>USUARIO NO ENCONTRADO</p>
       )}
 
       <UpdateUser
@@ -186,9 +152,4 @@ const Users = () => {
   )
 }
 
-      {errors && <div className="alert alert-danger">{errorMsg}</div>}
-    </div>
-  );
-};
-
-export default Users;
+export default Users

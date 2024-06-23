@@ -12,7 +12,7 @@ const NotFound = () => {
   return (
     <>
       <TbError404Off
-        style={{ fontSize: "10rem"}}
+        style={{ fontSize: "400px"}}
         fluid
       />
 

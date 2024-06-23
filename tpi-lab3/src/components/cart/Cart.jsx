@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,13 @@ import Navbar2 from "../navbar/Navbar";
 import PropTypes from "prop-types";
 import { BsCartX } from "react-icons/bs";
 import "./cart.css";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import Banner from "../banner/Banner";
 
 const Cart = ({ cart, setCart }) => {
   const navigate = useNavigate();
+
+  const { userType } = useContext(AuthenticationContext);
 
   const handleClickExplore = () => {
     navigate("/products");
@@ -127,11 +131,13 @@ const Cart = ({ cart, setCart }) => {
           </div>
         </>
       )}
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
+      <div style={{ textAlign: "center", marginTop: "20px", marginBottom: "10px" }}>
         <Button variant="secondary" onClick={handleClickHome}>
           Volver al inicio
         </Button>
       </div>
+      <div>{userType.role === "user" && ( <Banner />)}</div>
+      
     </>
   );
 };

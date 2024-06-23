@@ -9,6 +9,7 @@ import './products.css';
 import { useContext } from "react";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { Container } from "react-bootstrap";
+import Banner from "../banner/Banner";
 
 const Products = ({ carts }) => {
   const [productsApi, setProductsApi] = useState([]);
@@ -153,7 +154,7 @@ const Products = ({ carts }) => {
         handleClose={handleCloseModal}
         createProduct={createProduct}
       />
-      {userType.role === "admin" && (<Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
+      {(userType.role === "admin" || userType.role === "super") && (<Button variant="success" onClick={() => setShowModal(true)}>Crear Producto</Button>
     )}
       {productsApi.length > 0 ? (
         <div className="product-grid">
@@ -176,8 +177,8 @@ const Products = ({ carts }) => {
       ) : (
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
-  
-      <Button onClick={handleClick}>Volver al inicio</Button>
+      {userType.role === "user" && ( <Banner/>)}
+      {/* <Button onClick={handleClick}>Volver al inicio</Button> */}
     </>
   );
   
