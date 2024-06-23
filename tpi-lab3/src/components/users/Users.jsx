@@ -23,7 +23,7 @@ const Users = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUsers(data);
+        setUser(data);
         console.log("Usuarios recibidos de la API");
       } else {
         setErrors(true);
@@ -149,29 +149,22 @@ const Users = () => {
     <div>
       <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
 
-      {showNewUserForm ? (
-        <NewUser setForm={setShowNewUserForm} onAddUser={addUser} />
+      {users.length > 0 ? (
+        users.map((user, index) => (
+          <UserItem
+            key={index}
+            id={user.id}
+            name={user.name}
+            lastName={user.lastName}
+            email={user.email}
+            password={user.password}
+            type={user.type}
+            onDeleteUser={deleteUser}
+            onUpdateUser={updateUser}
+          />
+        ))
       ) : (
-        users.length > 0 ? (
-          <Row xs={1} md={2} lg={3} className="g-5">
-            {users.map((user, index) => (
-              <Col key={index}>
-                <UserItem
-                  id={user.id}
-                  name={user.name}
-                  lastName={user.lastName}
-                  email={user.email}
-                  password={user.password}
-                  type={user.type}
-                  onDeleteUser={deleteUser}
-                  onUpdateUser={updateUser}
-                />
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <p>NO SE HAN ENCONTRADO USUARIOS</p>
-        )
+        <p>USUARIO NO ENCONTRADO</p>
       )}
 
       <UpdateUser
@@ -185,10 +178,5 @@ const Users = () => {
     </div>
   )
 }
-
-      {errors && <div className="alert alert-danger">{errorMsg}</div>}
-    </div>
-  );
-};
 
 export default Users;
