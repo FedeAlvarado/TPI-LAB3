@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { Button, Card, Modal } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-import { FcDebt, FcReadingEbook, FcServices } from 'react-icons/fc'; 
-import UpdateUser from '../updateUser/UpdateUser';
+import { useState } from "react";
+import { Button, Card, Modal } from "react-bootstrap";
+import PropTypes from "prop-types";
+import { FcDebt, FcReadingEbook, FcServices } from "react-icons/fc";
+import UpdateUser from "../updateUser/UpdateUser";
 import { RxValueNone } from "react-icons/rx";
-import "./UserItem.css"
+import "./UserItem.css";
 
-
-const UserItem = ({ id, name, email, password, type, lastName, onDeleteUser, onUpdateUser }) => {
+const UserItem = ({
+  id,
+  name,
+  email,
+  password,
+  type,
+  lastName,
+  onDeleteUser,
+  onUpdateUser,
+}) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
 
@@ -17,32 +25,38 @@ const UserItem = ({ id, name, email, password, type, lastName, onDeleteUser, onU
   };
 
   let userTypeIcon;
-  if (type === 'user') {
-    userTypeIcon = <FcDebt fontSize={"100px"}/>;
-  } else if (type === 'admin') {
+  if (type === "user") {
+    userTypeIcon = <FcDebt fontSize={"100px"} />;
+  } else if (type === "admin") {
     userTypeIcon = <FcReadingEbook fontSize={"100px"} />;
-  } else if (type === 'super') {
-    userTypeIcon = <FcServices fontSize={"100px"}/>;
+  } else if (type === "super") {
+    userTypeIcon = <FcServices fontSize={"100px"} />;
   } else {
-    userTypeIcon = <RxValueNone fontSize={"100px"}/>; 
+    userTypeIcon = <RxValueNone fontSize={"100px"} />;
   }
 
   return (
     <div>
       <Card className="user-card">
         <Card.Body>
-          <div style={{ alignItems: 'center' }}>
-            <div style={{ marginRight: '10px' }}>{userTypeIcon}</div>
-            </div>
-            <Card.Title>Usuario: {lastName}, {name}</Card.Title>
+          <div style={{ alignItems: "center" }}>
+            <div>{userTypeIcon}</div>
+          </div>
+          <Card.Title>
+            Usuario: {lastName}, {name}
+          </Card.Title>
 
           <Card.Title>Correo Electronico: {email}</Card.Title>
           <Card.Title>Contraseña: {password}</Card.Title>
           <Card.Subtitle>Tipo de usuario: '{type}'</Card.Subtitle>
         </Card.Body>
-        <Button size='lg' variant='warning' onClick={() => setShowUpdate(true)}>EDITAR</Button>
-        <span className="mx-2"></span> 
-        <Button size='lg' variant='danger' onClick={() => setShowDelete(true)}>ELIMINAR</Button>
+        <Button size="lg" variant="warning" onClick={() => setShowUpdate(true)}>
+          EDITAR
+        </Button>
+        <span className="mx-2"></span>
+        <Button size="lg" variant="danger" onClick={() => setShowDelete(true)}>
+          ELIMINAR
+        </Button>
       </Card>
       <Modal show={showDelete} onHide={() => setShowDelete(false)}>
         <Modal.Header closeButton>
@@ -75,7 +89,7 @@ UserItem.propTypes = {
   name: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['user', 'admin', 'super']).isRequired,
+  type: PropTypes.oneOf(["user", "admin", "super"]).isRequired,
   lastName: PropTypes.string.isRequired,
   onDeleteUser: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,

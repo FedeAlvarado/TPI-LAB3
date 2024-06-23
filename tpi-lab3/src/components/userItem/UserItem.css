@@ -1,8 +1,8 @@
 .user-card {
-    transition: box-shadow 0.3s ease;
-    width: 20rem;
-    height: 510px;
-    align-items: flex-start;
+  transition: box-shadow 0.3s ease;
+  width: 17rem;
+  height: 510px;
+  align-items: flex-start;
   }
   
   .user-card:hover {
