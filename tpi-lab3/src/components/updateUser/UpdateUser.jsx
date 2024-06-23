@@ -106,17 +106,26 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => 
                         />
                     </Form.Group>
                     <Form.Group controlId="formRole">
-                        <Form.Label>Rol</Form.Label>
-                        <Form.Control
+                        <Form.Label>Rol de usuario: </Form.Label>
+                        <Form.Control 
+                            as="select"
                             type="text"
                             name="type"
                             placeholder="Ingrese el rol"
                             value={formData.type}
                             onChange={handleChange}
                             required
-                        />
+                        >
+                            <option value="">Seleccione un rol</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="super">Super</option>
+                        </Form.Control>
+
+
+
                     </Form.Group>
-                    <span className="mx-2"></span> 
+                    <span className="mx-2"></span>
                     <div className="d-grid gap-2">
                         <Button variant="success" type="submit">
                             {isNewUser ? 'Crear' : 'Actualizar'}

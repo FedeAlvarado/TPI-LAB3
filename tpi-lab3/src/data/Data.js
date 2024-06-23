@@ -107,3 +107,17 @@ export const listUsers = [
   }
 ]
 
+export const carrouselImages = [
+  {
+    id: 1,
+    imageFileName: "./src/data/carrousel/productcarrousel1.jpg",
+  },
+  {
+    id: 2,
+    imageFileName: "./src/data/carrousel/productcarrousel2.jpg",
+  },
+  {
+    id: 3,
+    imageFileName: "./src/data/carrousel/productcarrousel3.jpg",
+  }
+]

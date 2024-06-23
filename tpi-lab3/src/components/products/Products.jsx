@@ -130,7 +130,6 @@ const Products = ({ carts }) => {
     }
   };
 
-  // Función para agregar un producto al carrito
   const addToCart = (product) => {
     carts(prevCart => {
       const existingProduct = prevCart.find(p => p.id === product.id);
