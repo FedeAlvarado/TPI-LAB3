@@ -15,29 +15,16 @@ import Superadmin from './components/superadmin/Superadmin';
 import Users from './components/users/Users';
 
 function App() {
-  // Estado
   const [cart, setCart] = useState([]);
 
-
-  // Configuración de las rutas
+  
   const router = createBrowserRouter([
     {
       path: '/',
       element: (
-        <Protected>
           <Layout>
             <Dashboard />
           </Layout>
-        </Protected>
-      ),
-    },
-    {
-      path: "/dashboard",
-      element: (
-        <Layout>
-          <Dashboard />
-        </Layout>
-
       ),
     },
     {
@@ -61,7 +48,7 @@ function App() {
       element: (
         <Protected>
         <Layout>
-          <Cart cart={cart} />
+          <Cart cart={cart} setCart={setCart}/>
         </Layout>
         </Protected>
       ),
@@ -78,7 +65,7 @@ function App() {
       path: '/search-results',
       element: (
         <Layout>
-          <SearchResults />
+          <SearchResults carts={setCart}/>
         </Layout>
       ),
     },
@@ -94,7 +81,7 @@ function App() {
       path: "/users",
       element: (
         <Layout>
-          <Users/>
+          <Users />
         </Layout>
       ),
     },

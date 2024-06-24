@@ -196,7 +196,7 @@ const Products = ({ carts }) => {
       ) : (
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
-      {userType === "user" && <Banner />}
+      {userType === "user" && ( <Banner/>)}
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>
   );

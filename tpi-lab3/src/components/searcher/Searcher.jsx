@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { listProduct } from '../../data/Data';
 
 const Searcher = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
@@ -20,14 +18,7 @@ const Searcher = () => {
       return;
     }
 
-    const filtered = listProduct.filter(
-      (product) =>
-        product.nombre.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    setFilteredProducts(filtered);
-
-    navigate('/search-results', { state: { filteredProducts: filtered } });
+    navigate('/search-results', { state: { searchTerm } });
   };
 
   return (
