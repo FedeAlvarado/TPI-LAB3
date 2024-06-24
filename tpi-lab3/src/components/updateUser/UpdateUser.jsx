@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => {
+    const navigate = useNavigate();
     const isNewUser = !user || !user.id;
     const [formData, setFormData] = useState({
         id: user?.id || '',
@@ -34,22 +36,28 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(isNewUser){
-            var newUser={
+        if (isNewUser) {
+            const newUser = {
                 name: formData.name,
                 lastName: formData.lastName,
                 email: formData.email,
                 password: formData.password,
                 type: formData.type,
-            }
+            };
             onCreateUser(newUser);
             setFormData({
                 id: "", name: "", lastName: "",
                 email: "", password: "", type: ""
-              });
-        }
-        else
+            });
+        } else {
             onUpdateUser(user.id, formData);
+            handleClose();
+            if (user.id === formData.id && formData.type !== 'super') {
+                
+                navigate('/');
+                return;
+            }
+        }
 
         handleClose();
     };
@@ -121,9 +129,6 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => 
                             <option value="admin">Admin</option>
                             <option value="super">Super</option>
                         </Form.Control>
-
-
-
                     </Form.Group>
                     <span className="mx-2"></span>
                     <div className="d-grid gap-2">
@@ -157,3 +162,4 @@ UpdateUser.defaultProps = {
 };
 
 export default UpdateUser;
+
