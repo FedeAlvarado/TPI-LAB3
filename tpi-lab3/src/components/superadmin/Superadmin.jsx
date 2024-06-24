@@ -14,7 +14,7 @@ const Superadmin = () => {
 
   return (
     <div className="d-grid gap-2">
-      {userType.role === "super" && (
+      {userType === "super" && (
         <Button variant="danger" size="lg" onClick={() => navigate('/users')}>
         <FcConferenceCall fontSize={"100px"} />
         {" "}

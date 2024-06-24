@@ -61,7 +61,7 @@ const Navbar2 = ({ listProduct }) => {
                   <Nav className="justify-content-end flex-grow-1 pe-3">
 
                   {logged ? (
-                      <Nav.Link className='nav-link' onClick={() => setShowOut(true)}>Log-out</Nav.Link>
+                      <Nav.Link className='nav-link' onClick={() => setShowOut(true)} to="/dashboard">Log-out</Nav.Link>
                     ) : (
                       <Nav.Link className='nav-link' onClick={handleClick} to="/login">Log-in</Nav.Link>
                     )}
@@ -70,7 +70,6 @@ const Navbar2 = ({ listProduct }) => {
                     <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
-                    <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Log-out</Nav.Link>
                     {(userType === "admin" || userType === "super") && (
                       <Nav.Link className='nav-adm' style={{ color: 'red', fontWeight: 'bold', padding: '10px' }} onClick={handleClick} to="/superadmin">Administradores</Nav.Link>
                     )}

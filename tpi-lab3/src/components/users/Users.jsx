@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserItem from "../userItem/UserItem";
 import { Button, Container } from "react-bootstrap";
 import UpdateUser from "../updateUser/UpdateUser";
+import "./Users.css";
 
 const Users = () => {
   const [users, setUser] = useState([]);
@@ -118,27 +119,50 @@ const Users = () => {
     }
   };
 
+  const sortUsersByType = (users) => {
+    const sortedUsers = [...users];
+    sortedUsers.sort((a, b) => {
+      if (a.type === "super") return -1;
+      if (b.type === "super") return 1;
+      if (a.type === "admin") return -1;
+      if (b.type === "admin") return 1;
+      return 0;
+    });
+    return sortedUsers;
+  };
+
   return (
     <div>
       <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
 
       {users.length > 0 ? (
-        <div className="product-grid">
-          {users.map((user, index) => (
-            <Container style={{ width: "1280px" }}>
-              <UserItem
+        <div className="user-grid">
+          {sortUsersByType(users).map((user, index) => {
+            const isDeleted = user.deleteDate !== null;
+            return (
+              <Container
                 key={index}
-                id={user.id}
-                name={user.name}
-                lastName={user.lastName}
-                email={user.email}
-                password={user.password}
-                type={user.type}
-                onDeleteUser={deleteUser}
-                onUpdateUser={updateUser}
-              />
-            </Container>
-          ))}
+                className={`user-container ${isDeleted ? "deleted-user" : ""}`}
+              >
+                {isDeleted && (
+                  <>
+                    <div className="deleted-label">Eliminado</div>
+                    <div className="overlay"></div>
+                  </>
+                )}
+                <UserItem
+                  id={user.id}
+                  name={user.name}
+                  lastName={user.lastName}
+                  email={user.email}
+                  password={user.password}
+                  type={user.type}
+                  onDeleteUser={deleteUser}
+                  onUpdateUser={updateUser}
+                />
+              </Container>
+            );
+          })}
         </div>
       ) : (
         <p>USUARIO NO ENCONTRADO</p>

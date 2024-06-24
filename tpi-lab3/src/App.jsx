@@ -9,7 +9,6 @@ import Protected from './components/protected/Protected';
 import Cart from './components/cart/Cart';
 import Products from './components/products/Products';
 import Contact from './components/contact/Contact';
-import { listProduct, listUsers } from './data/Data';
 import Dashboard from './components/dashboard/Dashboard';
 import SearchResults from './components/searchResults/SearchResults';
 import Superadmin from './components/superadmin/Superadmin';
@@ -17,19 +16,8 @@ import Users from './components/users/Users';
 
 function App() {
   // Estado
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [product, setProduct] = useState(listProduct);
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(listUsers);
 
-  // Manejadores de inicio de sesión y cierre de sesión
-  const loginHandler = () => {
-    setIsLoggedIn(true);
-  };
-
-  const logOutHandler = () => {
-    setIsLoggedIn(false);
-  };
 
   // Configuración de las rutas
   const router = createBrowserRouter([
@@ -64,16 +52,18 @@ function App() {
       path: '/products',
       element: (
         <Layout>
-          <Products listProducts={product} carts={setCart} />
+          <Products carts={setCart} />
         </Layout>
       ),
     },
     {
       path: '/cart',
       element: (
+        <Protected>
         <Layout>
           <Cart cart={cart} />
         </Layout>
+        </Protected>
       ),
     },
     {
@@ -104,7 +94,7 @@ function App() {
       path: "/users",
       element: (
         <Layout>
-          <Users listUsers={user}/>
+          <Users/>
         </Layout>
       ),
     },

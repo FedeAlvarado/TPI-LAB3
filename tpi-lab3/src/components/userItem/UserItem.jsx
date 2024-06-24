@@ -26,37 +26,43 @@ const UserItem = ({
 
   let userTypeIcon;
   if (type === "user") {
-    userTypeIcon = <FcDebt fontSize={"100px"} />;
+    userTypeIcon = <FcDebt fontSize={"80px"} />;
   } else if (type === "admin") {
-    userTypeIcon = <FcReadingEbook fontSize={"100px"} />;
+    userTypeIcon = <FcReadingEbook fontSize={"80px"} />;
   } else if (type === "super") {
-    userTypeIcon = <FcServices fontSize={"100px"} />;
+    userTypeIcon = <FcServices fontSize={"80px"} />;
   } else {
-    userTypeIcon = <RxValueNone fontSize={"100px"} />;
+    userTypeIcon = <RxValueNone fontSize={"80px"} />;
   }
 
   return (
     <div>
       <Card className="user-card">
         <Card.Body>
-          <div style={{ alignItems: "center" }}>
-            <div>{userTypeIcon}</div>
+          <div className="user-icon">{userTypeIcon}</div>
+          <div className="user-information">
+            <p>
+              <strong>Usuario:</strong> {lastName}, {name}
+            </p>
+            <p>
+              <strong>Correo Electronico:</strong> {email}
+            </p>
+            <p>
+              <strong>Contraseña:</strong> {password}
+            </p>
+            <p>
+              <strong>Tipo de usuario:</strong> '{type}'
+            </p>
           </div>
-          <Card.Title>
-            Usuario: {lastName}, {name}
-          </Card.Title>
-
-          <Card.Title>Correo Electronico: {email}</Card.Title>
-          <Card.Title>Contraseña: {password}</Card.Title>
-          <Card.Subtitle>Tipo de usuario: '{type}'</Card.Subtitle>
         </Card.Body>
-        <Button size="lg" variant="warning" onClick={() => setShowUpdate(true)}>
-          EDITAR
-        </Button>
-        <span className="mx-2"></span>
-        <Button size="lg" variant="danger" onClick={() => setShowDelete(true)}>
-          ELIMINAR
-        </Button>
+        <div className="button-group">
+          <Button variant="warning" onClick={() => setShowUpdate(true)}>
+            Editar
+          </Button>
+          <Button variant="danger" onClick={() => setShowDelete(true)}>
+            Eliminar
+          </Button>
+        </div>
       </Card>
       <Modal show={showDelete} onHide={() => setShowDelete(false)}>
         <Modal.Header closeButton>

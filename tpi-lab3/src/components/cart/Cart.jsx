@@ -136,7 +136,7 @@ const Cart = ({ cart, setCart }) => {
           Volver al inicio
         </Button>
       </div>
-      <div>{userType.role === "user" && ( <Banner />)}</div>
+      <div>{userType === "user" && ( <Banner />)}</div>
       
     </>
   );
