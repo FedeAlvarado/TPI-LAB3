@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
-import { Card, Button, Modal, Form } from 'react-bootstrap';
-import PropTypes from 'prop-types';
-import './productItem.css';
-import { useContext } from 'react';
-import { AuthenticationContext } from '../../services/authentication/authentication.context';
+import React, { useState } from "react";
+import { Card, Button, Modal, Form } from "react-bootstrap";
+import PropTypes from "prop-types";
+import "./productItem.css";
+import { useContext } from "react";
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
-const ProductItem = ({ id, name, description, price, image, stock, addToCart, onEditProduct, onDeleteProduct, isLoggedIn = true }) => {
+const ProductItem = ({
+  id,
+  name,
+  description,
+  price,
+  image,
+  stock,
+  addToCart,
+  onEditProduct,
+  onDeleteProduct,
+  isLoggedIn = true,
+}) => {
   const [showModal, setShowModal] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
     id,
@@ -13,7 +24,7 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
     description,
     price,
     image,
-    stock
+    stock,
   });
   const { userType } = useContext(AuthenticationContext);
 
@@ -58,30 +69,58 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
         {stock === 0 && <div className="out-of-stock">Sin stock</div>}
         <Card.Img
           variant="top"
-          src={image !== "" ? image : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"}
+          src={
+            image !== ""
+              ? image
+              : "https://static.vecteezy.com/system/resources/previews/005/337/799/non_2x/icon-image-not-found-free-vector.jpg"
+          }
           className="img-fluid"
-          style={{ maxWidth: '100%', objectFit: 'contain', height: '160px', marginBottom: '25px' }}
+          style={{
+            maxWidth: "100%",
+            objectFit: "contain",
+            height: "160px",
+            marginBottom: "25px",
+            marginTop: "15px",
+          }}
         />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
-          <Card.Subtitle>{description}</Card.Subtitle>
-          <Card.Subtitle>{`$${price}`}</Card.Subtitle>
-          <Card.Text>
-            <strong>Stock: </strong>{stock}
-          </Card.Text>
-          <Button size="sm" style={{ marginTop: '10px' }} onClick={handleAddToCart} disabled={stock === 0}>
+          <Card.Subtitle>
+            {description}
+          </Card.Subtitle>
+
+          <Card.Subtitle>
+            <strong>Precio: </strong>
+            {`$${price}`}
+          </Card.Subtitle>
+          {userType === "admin" ||
+            (userType === "super" && (
+              <Card.Text>
+                <strong>Stock: </strong>
+                {stock}
+              </Card.Text>
+            ))}
+          <Button
+            size="sm"
+            style={{ marginTop: "20px" }}
+            onClick={handleAddToCart}
+            disabled={stock === 0}
+          >
             AGREGAR AL CARRITO
           </Button>
           {(userType === "admin" || userType === "super") && (
-            <div className="admin-options" style={{ marginTop: '10px' }}>
+            <div className="admin-options" style={{ marginTop: "10px" }}>
               <Button
                 variant="primary"
                 size="sm"
-                style={{ marginRight: '5px' }}
-                onClick={() => setShowModal(true)}>
+                style={{ marginRight: "5px" }}
+                onClick={() => setShowModal(true)}
+              >
                 Editar
               </Button>
-              <Button variant="danger" size="sm" onClick={handleDelete}>Eliminar</Button>
+              <Button variant="danger" size="sm" onClick={handleDelete}>
+                Eliminar
+              </Button>
             </div>
           )}
         </Card.Body>
@@ -136,12 +175,15 @@ const ProductItem = ({ id, name, description, price, image, stock, addToCart, on
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>Cancelar</Button>
-            <Button variant="primary" onClick={handleEdit}>Guardar Cambios</Button>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Cancelar
+            </Button>
+            <Button variant="primary" onClick={handleEdit}>
+              Guardar Cambios
+            </Button>
           </Modal.Footer>
         </Modal>
       )}
-
     </div>
   );
 };

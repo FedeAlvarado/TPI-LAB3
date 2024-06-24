@@ -2,9 +2,47 @@
   transition: box-shadow 0.3s ease;
   width: 17rem;
   height: 510px;
-  align-items: flex-start;
-  }
-  
-  .user-card:hover {
-    box-shadow: 0 6px 10px #00000033;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.user-card:hover {
+  box-shadow: 0 6px 10px #00000033;
+}
+
+.user-card .card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.user-card .card-title,
+.user-card .card-subtitle {
+  margin-bottom: 10px;
+}
+
+.user-card .button-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.user-card .button-group button {
+  margin: 0 5px;
+  margin-bottom: 50px;
+}
+
+.user-card .user-icon {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.user-information {
+  display: flex;
+  flex-direction: column;
+  font-size: medium;
+}

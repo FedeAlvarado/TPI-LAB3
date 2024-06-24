@@ -9,7 +9,6 @@ import Protected from './components/protected/Protected';
 import Cart from './components/cart/Cart';
 import Products from './components/products/Products';
 import Contact from './components/contact/Contact';
-import { listProduct, listUsers } from './data/Data';
 import Dashboard from './components/dashboard/Dashboard';
 import SearchResults from './components/searchResults/SearchResults';
 import Superadmin from './components/superadmin/Superadmin';
@@ -17,40 +16,16 @@ import Users from './components/users/Users';
 import Profile from './components/profile/Profile';
 
 function App() {
-  // Estado
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [product, setProduct] = useState(listProduct);
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(listUsers);
 
-  // Manejadores de inicio de sesión y cierre de sesión
-  const loginHandler = () => {
-    setIsLoggedIn(true);
-  };
-
-  const logOutHandler = () => {
-    setIsLoggedIn(false);
-  };
-
-  // Configuración de las rutas
+  
   const router = createBrowserRouter([
     {
       path: '/',
       element: (
-        <Protected>
           <Layout>
             <Dashboard />
           </Layout>
-        </Protected>
-      ),
-    },
-    {
-      path: "/dashboard",
-      element: (
-        <Layout>
-          <Dashboard />
-        </Layout>
-
       ),
     },
     {
@@ -65,16 +40,18 @@ function App() {
       path: '/products',
       element: (
         <Layout>
-          <Products listProducts={product} carts={setCart} />
+          <Products carts={setCart} />
         </Layout>
       ),
     },
     {
       path: '/cart',
       element: (
+        <Protected>
         <Layout>
-          <Cart cart={cart} />
+          <Cart cart={cart} setCart={setCart}/>
         </Layout>
+        </Protected>
       ),
     },
     {
@@ -89,7 +66,7 @@ function App() {
       path: '/search-results',
       element: (
         <Layout>
-          <SearchResults />
+          <SearchResults carts={setCart}/>
         </Layout>
       ),
     },
@@ -105,7 +82,7 @@ function App() {
       path: "/users",
       element: (
         <Layout>
-          <Users listUsers={user}/>
+          <Users />
         </Layout>
       ),
     },
