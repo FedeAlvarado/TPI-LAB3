@@ -60,7 +60,7 @@ const Carrousel = () => {
         <Carousel fade interval={2000} data-bs-theme="dark">
           {productsApi.map((product, index) => (
             <Carousel.Item key={index}>
-              <a href={`/products/${product.id}`}>
+              <a href={`/products`}>
                 <img
                   className="d-block w-100"
                   src={product.image}
@@ -71,7 +71,7 @@ const Carrousel = () => {
           ))}
         </Carousel>
         </div>
-        {userType === "user" && ( <Banner/>)}
+        {userType !== "admin" || userType !== "super" && ( <Banner/>)}
       </div>
   );
 };

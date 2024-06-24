@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { FaTools, FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import './NavBar.css';
-import Banner from '../banner/Banner';
-import SearchResults from '../searchResults/SearchResults';
 import Searcher from '../searcher/Searcher';
 
 const Navbar2 = () => {
@@ -62,12 +60,12 @@ const Navbar2 = () => {
                   <Nav className="justify-content-end flex-grow-1 pe-3">
 
                   {logged ? (
-                      <Nav.Link className='nav-link' onClick={() => setShowOut(true)} to="/dashboard">Log-out</Nav.Link>
+                      <Nav.Link className='nav-link' onClick={() => setShowOut(true)} to="/">Log-out</Nav.Link>
                     ) : (
                       <Nav.Link className='nav-link' onClick={handleClick} to="/login">Log-in</Nav.Link>
                     )}
 
-                    <Nav.Link className='nav-link' onClick={handleClick} to="/dashboard">Inicio</Nav.Link>
+                    <Nav.Link className='nav-link' onClick={handleClick} to="/">Inicio</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/products">Productos</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/cart">Carrito</Nav.Link>
                     <Nav.Link className='nav-link' onClick={handleClick} to="/contact">Contacto</Nav.Link>
