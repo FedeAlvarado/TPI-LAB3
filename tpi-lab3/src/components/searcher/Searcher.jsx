@@ -19,6 +19,7 @@ const Searcher = () => {
     }
 
     navigate('/search-results', { state: { searchTerm } });
+    setSearchTerm('');
   };
 
   return (

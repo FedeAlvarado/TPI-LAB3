@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
-import './Banner.css'; // Asegúrate de crear e importar el archivo CSS
+import './Banner.css';
 
 const Banner = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +11,6 @@ const Banner = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del email
   };
 
   return (
@@ -31,7 +30,7 @@ const Banner = () => {
                 onChange={handleInputChange}
                 required
               />
-              <Button type="submit" variant="success">SUSCRIBIME</Button>
+              <Button type="submit" variant="success">SUSCRIBIRME</Button>
             </InputGroup>
           </Form>
         </Col>
