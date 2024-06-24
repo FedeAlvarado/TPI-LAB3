@@ -25,9 +25,22 @@ const Cart = ({ cart, setCart }) => {
     navigate("/");
   };
 
-  const handleRemove = (id) => { };
+  const handleRemove = (id) => {
+    setCart(cart.filter(product => product.id !== id));
+  };
 
-  const handleQuantityChange = (id, quantity) => { };
+  const handleQuantityChange = (id, e) => {
+    var quantity=isNaN(parseInt(e.target.value))?1:parseInt(e.target.value);
+
+    if (quantity < 1) {
+      quantity = 1;
+    }    
+    e.target.value=quantity;
+
+    setCart(cart.map(product =>
+      product.id === id ? { ...product, quantity: quantity } : product
+    ));
+  };
 
   const handleProceedToPayment = async () => {
     try {
@@ -103,10 +116,11 @@ const Cart = ({ cart, setCart }) => {
                     <input
                       type="number"
                       value={product.quantity}
+                      min="1"
                       onChange={(e) =>
                         handleQuantityChange(
                           product.id,
-                          parseInt(e.target.value)
+                          e
                         )
                       }
                       style={{ width: "60px" }}
