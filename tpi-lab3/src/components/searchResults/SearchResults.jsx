@@ -63,7 +63,11 @@ const SearchResults = ({carts}) => {
   };
 
   return (
+    <>
+    <h2>Resultados de la búsqueda: {searchTerm}</h2>
     <div className="search-results-page">
+      
+      <br/>
       {filteredProducts.length > 0 ? (
         <ListGroup>
           {filteredProducts.map((product, index) => (
@@ -87,6 +91,7 @@ const SearchResults = ({carts}) => {
         <p>No se encontraron resultados. Intente nuevamente.</p>
       )}
     </div>
+    </>
   );
 };
 
