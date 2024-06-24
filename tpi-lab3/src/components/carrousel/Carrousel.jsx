@@ -42,7 +42,7 @@ const { userType } = useContext(AuthenticationContext);
           ))}
         </Carousel>
         </div>
-        {userType.role === "user" && ( <Banner/>)}
+        {userType === "user" && ( <Banner/>)}
       </div>
   );
 };

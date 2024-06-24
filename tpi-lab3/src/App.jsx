@@ -16,40 +16,16 @@ import Superadmin from './components/superadmin/Superadmin';
 import Users from './components/users/Users';
 
 function App() {
-  // Estado
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [product, setProduct] = useState(listProduct);
   const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(listUsers);
 
-  // Manejadores de inicio de sesión y cierre de sesión
-  const loginHandler = () => {
-    setIsLoggedIn(true);
-  };
-
-  const logOutHandler = () => {
-    setIsLoggedIn(false);
-  };
-
-  // Configuración de las rutas
+  
   const router = createBrowserRouter([
     {
       path: '/',
       element: (
-        <Protected>
           <Layout>
             <Dashboard />
           </Layout>
-        </Protected>
-      ),
-    },
-    {
-      path: "/dashboard",
-      element: (
-        <Layout>
-          <Dashboard />
-        </Layout>
-
       ),
     },
     {
@@ -64,7 +40,7 @@ function App() {
       path: '/products',
       element: (
         <Layout>
-          <Products listProducts={product} carts={setCart} />
+          <Products carts={setCart} />
         </Layout>
       ),
     },
@@ -72,7 +48,7 @@ function App() {
       path: '/cart',
       element: (
         <Layout>
-          <Cart cart={cart} />
+          <Cart cart={cart} setCart={setCart}/>
         </Layout>
       ),
     },
@@ -88,7 +64,7 @@ function App() {
       path: '/search-results',
       element: (
         <Layout>
-          <SearchResults />
+          <SearchResults carts={setCart}/>
         </Layout>
       ),
     },
@@ -104,7 +80,7 @@ function App() {
       path: "/users",
       element: (
         <Layout>
-          <Users listUsers={user}/>
+          <Users />
         </Layout>
       ),
     },

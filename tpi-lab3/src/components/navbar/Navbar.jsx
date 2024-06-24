@@ -3,11 +3,12 @@ import { Offcanvas, Navbar, Nav, Modal, Container, Button } from 'react-bootstra
 import { useNavigate } from "react-router-dom";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import { FaTools, FaUserCircle, FaShoppingCart } from "react-icons/fa";
-import Searcher from "../searcher/Searcher";
 import './NavBar.css';
 import Banner from '../banner/Banner';
+import SearchResults from '../searchResults/SearchResults';
+import Searcher from '../searcher/Searcher';
 
-const Navbar2 = ({ listProduct }) => {
+const Navbar2 = () => {
   const navigate = useNavigate();
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [showOut, setShowOut] = useState(false);
@@ -35,11 +36,10 @@ const Navbar2 = ({ listProduct }) => {
       {[false].map((expand) => (
         <Navbar key={expand} expand={expand} bg="primary" data-bs-theme="dark" className="fixed-top w-100">
           <Container fluid>
-            <Button variant="link" onClick={handleClick} to="/dashboard" className="d-flex align-items-center text-white" style={{ fontFamily: 'Arial', fontSize: '140%', textDecoration: 'none' }}>
+            <Button variant="link" onClick={handleClick} to="/" className="d-flex align-items-center text-white" style={{ fontFamily: 'Arial', fontSize: '140%', textDecoration: 'none' }}>
               <FaTools fontSize={"28px"} className="me-2" /> Ferretotal
             </Button>
-            <Searcher products={listProduct} />
-
+            <Searcher/>
             <div className="navdiv d-flex align-items-center">
               <FaUserCircle onClick={handleClick} to={"/login"} fontSize={"28px"} style={{ color: 'white' }} />
               <FaShoppingCart onClick={handleClick} to={"/cart"} fontSize={"28px"} style={{ color: 'white' }} />

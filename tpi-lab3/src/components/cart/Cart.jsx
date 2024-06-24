@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext, useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,11 @@ import { BsCartX } from "react-icons/bs";
 import "./cart.css";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import Banner from "../banner/Banner";
+import { Modal } from 'react-bootstrap';
 
 const Cart = ({ cart, setCart }) => {
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
 
   const { userType } = useContext(AuthenticationContext);
@@ -19,12 +22,12 @@ const Cart = ({ cart, setCart }) => {
   };
 
   const handleClickHome = () => {
-    navigate("/dashboard");
+    navigate("/");
   };
 
-  const handleRemove = (id) => {};
+  const handleRemove = (id) => { };
 
-  const handleQuantityChange = (id, quantity) => {};
+  const handleQuantityChange = (id, quantity) => { };
 
   const handleProceedToPayment = async () => {
     try {
@@ -42,8 +45,9 @@ const Cart = ({ cart, setCart }) => {
 
       if (response.ok) {
         console.log("Productos actualizados exitosamente");
-        alert("Su pedido fue registrado exitosamente");
-        navigate("/dashboard");
+        setShowModal(true);
+        setCart([]);
+        navigate("/");
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -61,10 +65,10 @@ const Cart = ({ cart, setCart }) => {
       <h1>Carrito de Compras</h1>
       {cart.length === 0 ? (
         <div style={{ textAlign: "center", marginTop: "40px" }}>
-          <BsCartX style={{ fontSize: "10rem", marginBottom: "10px" }} fluid/>
+          <BsCartX style={{ fontSize: "10rem", marginBottom: "10px" }} fluid />
           <div style={{ margin: "40px" }}>
-          <h3>Tu carrito está vacío.</h3>
-          <p>¡Explora nuestro catálogo!</p>
+            <h3>Tu carrito está vacío.</h3>
+            <p>¡Explora nuestro catálogo!</p>
           </div>
           <Button variant="primary" onClick={handleClickExplore}>
             Explorar productos
@@ -136,14 +140,27 @@ const Cart = ({ cart, setCart }) => {
           Volver al inicio
         </Button>
       </div>
-      <div>{userType.role === "user" && ( <Banner />)}</div>
-      
+      <div>{userType === "user" && (<Banner />)}</div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Éxito</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Su pedido fue registrado exitosamente.</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={() => setShowModal(false)}>
+            Ok
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </>
   );
 };
 
 Cart.propTypes = {
   cart: PropTypes.array.isRequired,
+  setCart: PropTypes.func.isRequired
 };
 
 export default Cart;
