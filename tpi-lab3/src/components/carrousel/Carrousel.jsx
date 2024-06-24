@@ -1,6 +1,5 @@
-import{ React} from "react";
-import PropTypes from "prop-types";
-import { Carousel, Container } from "react-bootstrap";
+import{ React, useState, useEffect} from "react";
+import { Carousel } from "react-bootstrap";
 import Banner from "../banner/Banner";
 import { carrouselImages } from "../../data/Data";
 import "./carrousel.css";
@@ -8,9 +7,39 @@ import { useContext } from "react";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 
-const Carrousel = ({ listProducts }) => {
+const Carrousel = () => {
+  const [productsApi, setProductsApi] = useState([]);
 
-const { userType } = useContext(AuthenticationContext);
+  const { userType } = useContext(AuthenticationContext);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:7054/Product', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setProductsApi(data);
+        console.log("Se reciben los productos de la api");
+      } else {
+        setErrors(true);
+        setErrorMsg(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      setErrors(true);
+      setErrorMsg("Error al conectar con el servidor.");
+      console.error('Error fetching products:', error);
+    }
+  };
 
   return (
     <div>
@@ -29,12 +58,12 @@ const { userType } = useContext(AuthenticationContext);
       </div>
       <div className="carrousel-products">
         <Carousel fade interval={2000} data-bs-theme="dark">
-          {listProducts.map((product, index) => (
+          {productsApi.map((product, index) => (
             <Carousel.Item key={index}>
               <a href={`/products/${product.id}`}>
                 <img
                   className="d-block w-100"
-                  src={product.imageFileName}
+                  src={product.image}
                   alt={product.nombre}
                 />
               </a>
@@ -42,14 +71,9 @@ const { userType } = useContext(AuthenticationContext);
           ))}
         </Carousel>
         </div>
-        {userType.role === "user" && ( <Banner/>)}
+        {userType === "user" && ( <Banner/>)}
       </div>
   );
-};
-
-Carrousel.propTypes = {
-  carrouselImages: PropTypes.array.isRequired,
-  listProducts: PropTypes.array.isRequired,
 };
 
 export default Carrousel;

@@ -15,6 +15,7 @@ const UserItem = ({
   lastName,
   onDeleteUser,
   onUpdateUser,
+  profile,
 }) => {
   const [showDelete, setShowDelete] = useState(false);
   const [showUpdate, setShowUpdate] = useState(false);
@@ -50,13 +51,18 @@ const UserItem = ({
           <Card.Title>Contraseña: {password}</Card.Title>
           <Card.Subtitle>Tipo de usuario: '{type}'</Card.Subtitle>
         </Card.Body>
-        <Button size="lg" variant="warning" onClick={() => setShowUpdate(true)}>
-          EDITAR
-        </Button>
-        <span className="mx-2"></span>
-        <Button size="lg" variant="danger" onClick={() => setShowDelete(true)}>
-          ELIMINAR
-        </Button>
+
+        {profile ? null : (<>
+          <Button size="lg" variant="warning" onClick={() => setShowUpdate(true)}>
+            EDITAR
+          </Button>
+          <span className="mx-2"></span>
+          <Button size="lg" variant="danger" onClick={() => setShowDelete(true)}>
+            ELIMINAR
+          </Button>
+        </>
+        )}
+
       </Card>
       <Modal show={showDelete} onHide={() => setShowDelete(false)}>
         <Modal.Header closeButton>
@@ -93,6 +99,7 @@ UserItem.propTypes = {
   lastName: PropTypes.string.isRequired,
   onDeleteUser: PropTypes.func.isRequired,
   onUpdateUser: PropTypes.func.isRequired,
+  profile: PropTypes.bool,
 };
 
 export default UserItem;

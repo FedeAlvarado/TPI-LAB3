@@ -26,8 +26,9 @@ const Navbar2 = ({ listProduct }) => {
   };
 
   const handleOut = () => {
-    handleLogout();
     setShowOut(false);
+    navigate("/");
+    handleLogout();    
   };
 
   return (
@@ -41,7 +42,7 @@ const Navbar2 = ({ listProduct }) => {
             <Searcher products={listProduct} />
 
             <div className="navdiv d-flex align-items-center">
-              <FaUserCircle onClick={handleClick} to={"/login"} fontSize={"28px"} style={{ color: 'white' }} />
+              <FaUserCircle onClick={handleClick} to={logged ? "/profile":"/login"} fontSize={"28px"} style={{ color: 'white' }} />
               <FaShoppingCart onClick={handleClick} to={"/cart"} fontSize={"28px"} style={{ color: 'white' }} />
 
               <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} onClick={handleOffcanvasToggle} />

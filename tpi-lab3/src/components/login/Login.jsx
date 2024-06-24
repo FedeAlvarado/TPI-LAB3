@@ -74,7 +74,7 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        handleLogin(email, data.type);
+        handleLogin(data, email, data.type);
         navigate('/');
       } else {
         setErrors({ ...errors, apiError: true });

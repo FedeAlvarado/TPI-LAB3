@@ -14,6 +14,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import SearchResults from './components/searchResults/SearchResults';
 import Superadmin from './components/superadmin/Superadmin';
 import Users from './components/users/Users';
+import Profile from './components/profile/Profile';
 
 function App() {
   // Estado
@@ -106,6 +107,16 @@ function App() {
         <Layout>
           <Users listUsers={user}/>
         </Layout>
+      ),
+    },
+    {
+      path: "/profile",
+      element: (
+        <Protected>
+          <Layout>
+            <Profile/>
+          </Layout>
+        </Protected>
       ),
     },
     {
