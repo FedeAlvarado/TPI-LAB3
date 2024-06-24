@@ -15,7 +15,6 @@ const ProductItem = ({
   addToCart,
   onEditProduct,
   onDeleteProduct,
-  isLoggedIn = true,
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
@@ -88,7 +87,7 @@ const ProductItem = ({
           <Card.Subtitle>
             {description}
           </Card.Subtitle>
-
+          <br/>
           <Card.Subtitle>
             <strong>Precio: </strong>
             {`$${price}`}

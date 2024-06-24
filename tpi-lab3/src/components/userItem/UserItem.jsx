@@ -57,17 +57,20 @@ const UserItem = ({
           </div>
         </Card.Body>
 
-        {profile ? null : (<>
-          <Button size="lg" variant="warning" onClick={() => setShowUpdate(true)}>
-            EDITAR
-          </Button>
-          <span className="mx-2"></span>
-          <Button size="lg" variant="danger" onClick={() => setShowDelete(true)}>
-            ELIMINAR
-          </Button>
-        </>
+        {profile ? null : (
+          <>
+            <div>
+              <Button variant="warning" onClick={() => setShowUpdate(true)}>
+                Editar
+              </Button>
+              <span className="mx-2"></span>
+              {(type !== "super") && (
+              <Button variant="danger" onClick={() => setShowDelete(true)}>
+                Eliminar
+              </Button>)}
+            </div>
+          </>
         )}
-
       </Card>
       <Modal show={showDelete} onHide={() => setShowDelete(false)}>
         <Modal.Header closeButton>
