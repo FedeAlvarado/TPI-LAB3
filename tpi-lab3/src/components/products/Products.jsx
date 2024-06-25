@@ -17,6 +17,8 @@ const Products = ({ carts }) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(true);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   const navigate = useNavigate();
   const { userType } = useContext(AuthenticationContext);
@@ -142,7 +144,6 @@ const Products = ({ carts }) => {
   };
 
   const addToCart = (product) => {
-    let alertShown = false;
     let productAdded = false;
 
     carts((prevCart) => {
@@ -155,10 +156,9 @@ const Products = ({ carts }) => {
             p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
           );
         } else {
-          if (!alertShown) {
-            alert("No puedes agregar más de este producto al carrito.");
-            alertShown = true;
-          }
+          setAlertMessage("No puedes agregar más de este producto al carrito");
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
           return prevCart;
         }
       } else {
@@ -166,10 +166,9 @@ const Products = ({ carts }) => {
           productAdded = true;
           return [...prevCart, { ...product, quantity: 1 }];
         } else {
-          if (!alertShown) {
-            alert("Este producto está agotado.");
-            alertShown = true;
-          }
+          setAlertMessage("Este producto está agotado");
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
           return prevCart;
         }
       }
@@ -249,6 +248,11 @@ const Products = ({ carts }) => {
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
       {userType === "user" && <Banner />}
+      {showAlert && (
+        <Alert variant="danger" className="fixed-top-right">
+          {alertMessage}
+        </Alert>
+      )}
       <br />
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>
@@ -260,3 +264,4 @@ Products.propTypes = {
 };
 
 export default Products;
+

@@ -35,6 +35,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     localStorage.removeItem("userType");
     setUserType(null);
     setLogged(false);
+    localStorage.clear()
   };
 
   return (

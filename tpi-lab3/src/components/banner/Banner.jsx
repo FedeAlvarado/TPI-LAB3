@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
-import './Banner.css';
+import './banner.css';
 
 const Banner = () => {
   const [email, setEmail] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [buttonText, setButtonText] = useState('SUSCRIBIRME');
+  const [buttonVariant, setButtonVariant] = useState('success');
 
   const handleInputChange = (e) => {
     setEmail(e.target.value);
@@ -11,6 +14,16 @@ const Banner = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setShowAlert(true);
+    setButtonText('¡SUSCRIBIDO!');
+    setButtonVariant('primary');
+    setEmail(''); 
+
+    setTimeout(() => {
+      setShowAlert(false);
+      setButtonText('SUSCRIBIRME');
+      setButtonVariant('success');
+    }, 3000);
   };
 
   return (
@@ -18,7 +31,7 @@ const Banner = () => {
       <Row className="align-items-center">
         <Col md={6}>
           <h2>RECIBÍ LAS MEJORES OFERTAS</h2>
-          <p>¡Y enterate las novedades del día!</p>
+          <p>¡Y entérate de las novedades del día!</p>
         </Col>
         <Col md={6}>
           <Form onSubmit={handleSubmit}>
@@ -30,7 +43,9 @@ const Banner = () => {
                 onChange={handleInputChange}
                 required
               />
-              <Button type="submit" variant="success">SUSCRIBIRME</Button>
+              <Button type="submit" variant={buttonVariant}>
+                {buttonText}
+              </Button>
             </InputGroup>
           </Form>
         </Col>

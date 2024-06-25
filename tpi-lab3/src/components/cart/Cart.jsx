@@ -12,9 +12,7 @@ import { Modal } from "react-bootstrap";
 
 const Cart = ({ cart, setCart }) => {
   const [showModal, setShowModal] = useState(false);
-
   const navigate = useNavigate();
-
   const { userType } = useContext(AuthenticationContext);
 
   const handleClickExplore = () => {
@@ -70,8 +68,6 @@ const Cart = ({ cart, setCart }) => {
       if (response.ok) {
         console.log("Productos actualizados exitosamente");
         setShowModal(true);
-        setCart([]);
-        navigate("/");
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -83,7 +79,16 @@ const Cart = ({ cart, setCart }) => {
     }
   };
 
-  const total = cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+  const total = cart.reduce(
+    (sum, product) => sum + product.price * product.quantity,
+    0
+  );
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    setCart([]);
+    navigate("/");
+  };
 
   return (
     <>
@@ -107,7 +112,7 @@ const Cart = ({ cart, setCart }) => {
               <tr>
                 <th></th>
                 <th>Nombre</th>
-                <th>Descripción</th>
+                <th>Precio unitario</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
                 <th></th>
@@ -152,23 +157,20 @@ const Cart = ({ cart, setCart }) => {
             </tbody>
           </Table>
           <div style={{ margin: "10px", textAlign: "right" }}>
-          <p>Total: ${total}</p>
+            <h5>Total a pagar: $ {total} </h5>
           </div>
           <div style={{ margin: "20px", textAlign: "right" }}>
             <Button variant="primary" onClick={handleProceedToPayment}>
-              Proceder al pago
+              Realizar pedido
             </Button>
           </div>
         </>
       )}
-      <div
-        style={{ textAlign: "center", marginTop: "20px", marginBottom: "10px" }}
-      >
+      <div style={{ textAlign: "center", marginTop: "20px", marginBottom: "10px" }}>
         <Button variant="secondary" onClick={handleClickHome}>
           Volver al inicio
         </Button>
       </div>
-      <div>{userType === "user" && <Banner />}</div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -176,7 +178,7 @@ const Cart = ({ cart, setCart }) => {
         </Modal.Header>
         <Modal.Body>Su pedido fue registrado exitosamente.</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={() => setShowModal(false)}>
+          <Button variant="primary" onClick={handleModalClose}>
             Ok
           </Button>
         </Modal.Footer>

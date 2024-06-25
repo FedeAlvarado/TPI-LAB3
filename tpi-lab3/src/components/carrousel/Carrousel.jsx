@@ -28,8 +28,9 @@ const Carrousel = () => {
   
       if (response.ok) {
         const data = await response.json();
-        setProductsApi(data);
-        console.log("Se reciben los productos de la api");
+        const filteredProducts = data.filter(product => product.image && !product.deleteDate);
+        setProductsApi(filteredProducts);
+        console.log("Se reciben los productos de la API:", filteredProducts);
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -71,7 +72,7 @@ const Carrousel = () => {
           ))}
         </Carousel>
         </div>
-        {userType !== "admin" && userType !== "super" && ( <Banner/>)}
+        {userType !== "admin" && userType !== "super" && <Banner/>}
       </div>
   );
 };

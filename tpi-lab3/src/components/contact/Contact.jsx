@@ -1,9 +1,9 @@
-import { React, useState } from "react";
-import { Button, Col, Form, Row, Card } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Button, Col, Form, Row, Card, Alert } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 import Footer from "../footer/Footer";
-
+import "./contact.css";
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ const Contact = () => {
   const [enteredCity, setEnteredCity] = useState('');
   const [enteredProvince, setEnteredProvince] = useState('');
   const [enteredComment, setEnteredComment] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleChangeName = (e) => setEnteredName(e.target.value);
   const handleChangeEmail = (e) => setEnteredEmail(e.target.value);
@@ -47,7 +48,7 @@ const Contact = () => {
     };
     console.log('Form Values:', formValues);
 
-    //TODO: Hacer fetch a la api endpoint consulta
+    // TODO: Hacer fetch a la api endpoint consulta
 
     setEnteredName('');
     setEnteredEmail('');
@@ -58,11 +59,19 @@ const Contact = () => {
     setEnteredCity('');
     setEnteredProvince('');
     setEnteredComment('');
+
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 4000);
   };
 
   return (
     <div>
-      <Navbar2></Navbar2>
+      <Navbar2 />
+      {showAlert && (
+        <Alert variant="success" className="custom-alert">
+          El mensaje ha sido enviado exitosamente.
+        </Alert>
+      )}
       <Card border="primary">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
@@ -179,7 +188,7 @@ const Contact = () => {
           <Button onClick={handleReturn}>Volver al inicio</Button>
         </Form>
       </Card>
-      <Footer></Footer>
+      <Footer />
     </div>
   );
 };

@@ -4,11 +4,14 @@ import ProductItem from "../productItem/ProductItem";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
+import "./searchResults.css";
 
 const SearchResults = ({ carts }) => {
   const location = useLocation();
   const [productosApi, setProductosApi] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   const { searchTerm } = location.state || "";
   const { userType } = useContext(AuthenticationContext);
 
@@ -60,12 +63,14 @@ const SearchResults = ({ carts }) => {
         alert("Producto actualizado exitosamente");
         fetchProducts();
       } else {
-        setErrors(true);
-        setErrorMsg(`Error: ${response.status}`);
+        setAlertMessage(`Error: ${response.status}`);
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
       }
     } catch (error) {
-      setErrors(true);
-      setErrorMsg("Error al conectar con el servidor.");
+      setAlertMessage("Error al conectar con el servidor.");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
       console.error("Error updating product:", error);
     }
   };
@@ -85,12 +90,14 @@ const SearchResults = ({ carts }) => {
         alert("Producto eliminado exitosamente");
         fetchProducts();
       } else {
-        setErrors(true);
-        setErrorMsg(`Error: ${response.status}`);
+        setAlertMessage(`Error: ${response.status}`);
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
       }
     } catch (error) {
-      setErrors(true);
-      setErrorMsg("Error al conectar con el servidor.");
+      setAlertMessage("Error al conectar con el servidor.");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
       console.error("Error deleting product:", error);
     }
   };
@@ -116,7 +123,9 @@ const SearchResults = ({ carts }) => {
             p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
           );
         } else {
-          alert("No puedes agregar más de este producto al carrito.");
+          setAlertMessage("No puedes agregar más de este producto al carrito");
+          setShowAlert(true);
+          setTimeout(() => setShowAlert(false), 3000);
           return prevCart;
         }
       } else {
@@ -128,12 +137,8 @@ const SearchResults = ({ carts }) => {
   return (
     <>
       <h2>Resultados de la búsqueda: {searchTerm}</h2>
-      <div className="search-results-page">
-        <br />
-        {filteredProducts.length > 0 ? (
-          <ListGroup>
-            {filteredProducts.map((product) => 
-              {
+      <div className="product-grid">
+        {filteredProducts.length > 0 ? (filteredProducts.map((product) => {
               const isDeleted = product.deleteDate !== null;
               return (
                 <Container
@@ -165,13 +170,16 @@ const SearchResults = ({ carts }) => {
                   />
                 </Container>
               );
-            }
-            )}
-          </ListGroup>
+            })
         ) : (
           <p>No se encontraron resultados. Intente nuevamente.</p>
         )}
       </div>
+      {showAlert && (
+        <Alert variant="danger" className="fixed-top-right">
+          {alertMessage}
+        </Alert>
+      )}
     </>
   );
 };
@@ -181,3 +189,4 @@ SearchResults.propTypes = {
 };
 
 export default SearchResults;
+
