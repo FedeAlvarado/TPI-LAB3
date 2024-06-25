@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import { AuthenticationContext } from "../../services/authentication/authentication.context";
 
 const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => {
     const navigate = useNavigate();
+    const { userObject, handleLogout } = useContext(AuthenticationContext); 
     const isNewUser = !user || !user.id;
     const [formData, setFormData] = useState({
         id: user?.id || '',
@@ -50,10 +52,10 @@ const UpdateUser = ({ show, handleClose, user, onUpdateUser, onCreateUser }) => 
                 email: "", password: "", type: ""
             });
         } else {
-            onUpdateUser(user.id, formData);
+            onUpdateUser(userObject.id, formData);
             handleClose();
-            if (user.id === formData.id && formData.type !== 'super') {
-                
+            if (userObject.id === formData.id && formData.type !== 'super') {
+                handleLogout();
                 navigate('/');
                 return;
             }

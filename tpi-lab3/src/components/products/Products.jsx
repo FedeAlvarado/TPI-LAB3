@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 import PropTypes from "prop-types";
@@ -16,6 +16,7 @@ const Products = ({ carts }) => {
   const [errors, setErrors] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(true);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
   const { userType } = useContext(AuthenticationContext);
@@ -58,14 +59,17 @@ const Products = ({ carts }) => {
 
   const editProduct = async (updatedProduct) => {
     try {
-      const response = await fetch("http://localhost:7054/Product/updateProduct", {
-        method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProduct),
-      });
+      const response = await fetch(
+        "http://localhost:7054/Product/updateProduct",
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProduct),
+        }
+      );
 
       if (response.ok) {
         console.log("Producto actualizado exitosamente");
@@ -111,13 +115,16 @@ const Products = ({ carts }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const response = await fetch(`http://localhost:7054/Product/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `http://localhost:7054/Product/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         console.log("Producto eliminado exitosamente");
@@ -136,12 +143,14 @@ const Products = ({ carts }) => {
 
   const addToCart = (product) => {
     let alertShown = false;
+    let productAdded = false;
 
     carts((prevCart) => {
       const existingProduct = prevCart.find((p) => p.id === product.id);
 
       if (existingProduct) {
         if (existingProduct.quantity < product.stock) {
+          productAdded = true;
           return prevCart.map((p) =>
             p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
           );
@@ -154,6 +163,7 @@ const Products = ({ carts }) => {
         }
       } else {
         if (product.stock > 0) {
+          productAdded = true;
           return [...prevCart, { ...product, quantity: 1 }];
         } else {
           if (!alertShown) {
@@ -164,6 +174,11 @@ const Products = ({ carts }) => {
         }
       }
     });
+
+    if (productAdded) {
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 2000);
+    }
   };
 
   const handleCloseModal = () => setShowModal(false);
@@ -221,6 +236,11 @@ const Products = ({ carts }) => {
                     onDeleteProduct={deleteProduct}
                     addToCart={addToCart}
                   />
+                  {showSuccessMessage && (
+                    <Alert variant="success" className="fixed-top-right">
+                      PRODUCTO AÑADIDO A CARRITO
+                    </Alert>
+                  )}
                 </Container>
               );
             })}
@@ -229,7 +249,7 @@ const Products = ({ carts }) => {
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
       {userType === "user" && <Banner />}
-      <br/>
+      <br />
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Modal, Form, Alert } from "react-bootstrap";
+import { Card, Button, Modal, Form } from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./productItem.css";
 import { useContext } from "react";
@@ -17,7 +17,6 @@ const ProductItem = ({
   onDeleteProduct,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
     id,
     name,
@@ -31,8 +30,7 @@ const ProductItem = ({
   const handleAddToCart = () => {
     if (stock > 0) {
       addToCart({ id, name, description, price, image, stock });
-      setShowSuccessMessage(true);
-      setTimeout(() => setShowSuccessMessage(false), 2000);
+      
     }
   };
 
@@ -93,13 +91,13 @@ const ProductItem = ({
             <strong>Precio: </strong>
             {`$${price}`}
           </Card.Subtitle>
-          {userType === "admin" ||
-            (userType === "super" && (
+          {(userType === "admin" ||
+            userType === "super") && (
               <Card.Text>
                 <strong>Stock: </strong>
                 {stock}
               </Card.Text>
-            ))}
+            )}
           <Button
             size="sm"
             style={{ marginTop: "20px" }}
@@ -123,11 +121,7 @@ const ProductItem = ({
               </Button>
             </div>
           )}
-          {showSuccessMessage && (
-            <Alert variant="success" className="fixed-top-right">
-              PRODUCTO AÑADIDO A CARRITO
-            </Alert>
-          )}
+          
         </Card.Body>
       </Card>
       {(userType === "admin" || userType === "super") && (
