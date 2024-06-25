@@ -10,12 +10,14 @@ const userValueString = localStorage.getItem("user");
 const userValue = userValueString ? JSON.parse(userValueString) : null;
 const userTypeValueString = localStorage.getItem("userType");
 const userTypeValue = userTypeValueString ? JSON.parse(userTypeValueString) : null;
+const userBoolString = localStorage.getItem("userBool");
+const userBool = userBoolString ? JSON.parse(userBoolString) : null;
 
 export const AuthenticationContextProvider = ({ children }) => {
   const [userObject, setUserObject] = useState(userObjectValue);
   const [user, setUser] = useState(userValue);
   const [userType, setUserType] = useState(userTypeValue);
-  const [logged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(userBool);
 
   const handleLogin = (userObject, email, role) => {
     localStorage.setItem("userObject", JSON.stringify(userObject));
@@ -24,6 +26,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     setUser( email );
     localStorage.setItem("userType", JSON.stringify( role ));
     setUserType(role);
+    localStorage.setItem("userBool", JSON.stringify( true ));
     setLogged(true);
   };
 
@@ -34,7 +37,8 @@ export const AuthenticationContextProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("userType");
     setUserType(null);
-    setLogged(false);
+    localStorage.removeItem("userBool");
+    setLogged(null);
     localStorage.clear()
   };
 

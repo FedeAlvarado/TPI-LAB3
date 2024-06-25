@@ -61,7 +61,7 @@ const Carrousel = () => {
         <Carousel fade interval={2000} data-bs-theme="dark">
           {productsApi.map((product, index) => (
             <Carousel.Item key={index}>
-              <a href={`/products`}>
+              <a href={'/products'}>
                 <img
                   className="d-block w-100"
                   src={product.image}

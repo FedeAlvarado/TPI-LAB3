@@ -66,11 +66,11 @@ const Login = () => {
       const response = await fetch('http://localhost:7054/User/validate', {
         method: 'POST',
         headers: {
-          'accept':' */*',
+          'accept': ' */*',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ email, password })
-      });      
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -86,6 +86,17 @@ const Login = () => {
       setErrorMsg("Error al conectar con el servidor.");
       return;
     }
+  };
+
+  const cleanForm = () => {
+    setEmail("");
+    setPassword("");
+    setErrors({
+      email: false,
+      password: false,
+      exist: false,
+      apiError: false,
+    });
   };
 
   return (
@@ -136,17 +147,17 @@ const Login = () => {
               <Button onClick={loginHandler}>Iniciar sesión</Button>
               <br />
               <br />
-              <a onClick={() => setFormType("register")} href="#">Crea tu cuenta</a>
+              <a onClick={() => { setFormType("register"); cleanForm(); }} href="#">Crea tu cuenta</a>
               <br />
               <br />
-              <a onClick={() => setFormType("recover")} href="#">Recuperar usuario</a>
+              <a onClick={() => { setFormType("recover"); cleanForm(); }} href="#">Recuperar usuario</a>
             </Form>
-            
+
           )}
 
           {formType === "register" && (
             <>
-              <NewUser setForm={setFormType}/>
+              <NewUser setForm={setFormType} />
               <br />
               <a onClick={() => setFormType("login")} href="#">Volver a iniciar sesión</a>
             </>

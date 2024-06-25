@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup } from 'react-bootstrap';
-import './banner.css';
+import './Banner.css';
 
 const Banner = () => {
   const [email, setEmail] = useState('');

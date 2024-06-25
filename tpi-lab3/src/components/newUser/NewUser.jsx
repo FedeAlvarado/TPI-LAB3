@@ -26,27 +26,27 @@ const NewUser = ({setForm}) => {
   const confirmPasswordRef = useRef(null);
 
   const changeFirstNameHandler = (e) => {
-    setErrors({ ...errors, name: false });
+    setErrors({ ...errors, apiError: false, name: false });
     setFirstName(e.target.value);
   };
 
   const changeLastNameHandler = (e) => {
-    setErrors({ ...errors, lastName: false });
+    setErrors({ ...errors, apiError: false, lastName: false });
     setLastName(e.target.value);
   };
 
   const changeEmailHandler = (e) => {
-    setErrors({ ...errors, email: false, emailExists: false });
+    setErrors({ ...errors, apiError: false, email: false, emailExists: false });
     setEmail(e.target.value);
   };
 
   const changePasswordHandler = (e) => {
-    setErrors({ ...errors, password: false });
+    setErrors({ ...errors, apiError: false, password: false });
     setPassword(e.target.value);
   };
 
   const changeConfirmPasswordHandler = (e) => {
-    setErrors({ ...errors, confirmPassword: false });
+    setErrors({ ...errors, apiError: false, confirmPassword: false });
     setConfirmPassword(e.target.value);
   };
 
@@ -109,6 +109,7 @@ const NewUser = ({setForm}) => {
       } else if (response.status==409){
         setErrors({ ...errors, apiError: true });
         setErrorMsg("El usuario ya se encuentra registrado.");
+        cleanForm();
         return;
       } else {
         setErrors({ ...errors, apiError: true });
@@ -121,6 +122,15 @@ const NewUser = ({setForm}) => {
       return;
     }
   };
+
+  const cleanForm = () => {
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+  
 
   return (
     <Form>
