@@ -1,8 +1,7 @@
 # TPI-LAB3
-Bienvenidos al repositorio del TPI de Laboratorio III - UTN Rosario.
+Bienvenidos al repositorio del TPI de Laboratorio de Computación III - UTN Rosario.
 
 Integrantes:
-→Alvarado, Federico.
-→Callegari, Franco.
-→Cordoba, Agustin.
-→de Macedo, Manuel.
+- Alvarado, Federico
+- Callegari, Franco
+- de Macedo, Manuel
