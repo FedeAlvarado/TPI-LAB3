@@ -21,3 +21,10 @@
     font-weight: bold;
   }
   
+  .fixed-top-right {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    z-index: 1050;
+  }
+  

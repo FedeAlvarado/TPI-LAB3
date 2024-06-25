@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
 import PropTypes from "prop-types";
 import ProductItem from "../productItem/ProductItem";
 import ProductModal from "../productModal/ProductModal";
-import "./products.css";
-import { useContext } from "react";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
-import { Container } from "react-bootstrap";
 import Banner from "../banner/Banner";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
+import "./products.css";
 
 const Products = ({ carts }) => {
   const [productsApi, setProductsApi] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [errors, setErrors] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const { userType } = useContext(AuthenticationContext);
@@ -27,6 +29,7 @@ const Products = ({ carts }) => {
   }, []);
 
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:7054/Product", {
         method: "GET",
@@ -48,22 +51,21 @@ const Products = ({ carts }) => {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
       console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const editProduct = async (updatedProduct) => {
     try {
-      const response = await fetch(
-        "http://localhost:7054/Product/updateProduct",
-        {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedProduct),
-        }
-      );
+      const response = await fetch("http://localhost:7054/Product/updateProduct", {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProduct),
+      });
 
       if (response.ok) {
         console.log("Producto actualizado exitosamente");
@@ -96,7 +98,6 @@ const Products = ({ carts }) => {
         alert("Producto creado exitosamente");
         fetchProducts();
         setShowModal(false);
-        return;
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -110,16 +111,13 @@ const Products = ({ carts }) => {
 
   const deleteProduct = async (id) => {
     try {
-      const response = await fetch(
-        `http://localhost:7054/Product/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:7054/Product/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
         console.log("Producto eliminado exitosamente");
@@ -137,14 +135,33 @@ const Products = ({ carts }) => {
   };
 
   const addToCart = (product) => {
+    let alertShown = false;
+
     carts((prevCart) => {
       const existingProduct = prevCart.find((p) => p.id === product.id);
+
       if (existingProduct) {
-        return prevCart.map((p) =>
-          p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
-        );
+        if (existingProduct.quantity < product.stock) {
+          return prevCart.map((p) =>
+            p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
+          );
+        } else {
+          if (!alertShown) {
+            alert("No puedes agregar más de este producto al carrito.");
+            alertShown = true;
+          }
+          return prevCart;
+        }
       } else {
-        return [...prevCart, { ...product, quantity: 1 }];
+        if (product.stock > 0) {
+          return [...prevCart, { ...product, quantity: 1 }];
+        } else {
+          if (!alertShown) {
+            alert("Este producto está agotado.");
+            alertShown = true;
+          }
+          return prevCart;
+        }
       }
     });
   };
@@ -164,20 +181,35 @@ const Products = ({ carts }) => {
           Crear Producto
         </Button>
       )}
-      {productsApi.length > 0 ? (
+      {loading ? (
+        <LoadingSpinner />
+      ) : productsApi.length > 0 ? (
         <div className="product-grid">
           {productsApi
-            .filter((product) => userType !== "user" || product.deleteDate === null)
+            .filter((product) =>
+              userType === "admin" || userType === "super"
+                ? true
+                : product.deleteDate === null
+            )
             .map((product) => {
               const isDeleted = product.deleteDate !== null;
               return (
-                <Container key={product.id} className={`product-container ${isDeleted && (userType === "admin" || userType === "super") ? 'deleted-product' : ''}`}>
-                  {isDeleted && (userType === "admin" || userType === "super") && (
-                    <>
-                      <div className="deleted-label">Eliminado</div>
-                      <div className="overlay"></div>
-                    </>
-                  )}
+                <Container
+                  key={product.id}
+                  className={`product-container ${
+                    isDeleted && (userType === "admin" || userType === "super")
+                      ? "deleted-product"
+                      : ""
+                  }`}
+                >
+                  {isDeleted &&
+                    (userType === "admin" || userType === "super") && (
+                      <>
+                        <div className="deleted-label">Eliminado</div>
+                        <div className="overlay"></div>
+                      </>
+                    )}
+
                   <ProductItem
                     id={product.id}
                     name={product.name}
@@ -196,7 +228,8 @@ const Products = ({ carts }) => {
       ) : (
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
-      {userType === "user" && ( <Banner/>)}
+      {userType === "user" && <Banner />}
+      <br/>
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>
   );
