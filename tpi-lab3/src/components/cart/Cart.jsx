@@ -72,6 +72,8 @@ const Cart = ({ cart, setCart }) => {
     }
   };
 
+  const total = cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+
   return (
     <>
       <Navbar2 />
@@ -140,7 +142,7 @@ const Cart = ({ cart, setCart }) => {
             </tbody>
           </Table>
           <div style={{ margin: "10px", textAlign: "right" }}>
-            <p>Total:</p>
+          <p>Total: ${total}</p>
           </div>
           <div style={{ margin: "20px", textAlign: "right" }}>
             <Button variant="primary" onClick={handleProceedToPayment}>

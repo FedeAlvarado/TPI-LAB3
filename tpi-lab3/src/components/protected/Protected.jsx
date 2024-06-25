@@ -4,9 +4,9 @@ import { AuthenticationContext } from "../../services/authentication/authenticat
 import PropTypes from "prop-types";
 
 const Protected = ({ children }) => {
-  const { user } = useContext(AuthenticationContext);
+  const { logged } = useContext(AuthenticationContext);
 
-  if (!user) {
+  if (!logged) {
     return <Navigate to="/login" replace />;
   }
 

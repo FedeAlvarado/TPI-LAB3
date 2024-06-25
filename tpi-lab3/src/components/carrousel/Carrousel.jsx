@@ -71,7 +71,7 @@ const Carrousel = () => {
           ))}
         </Carousel>
         </div>
-        {userType !== "admin" || userType !== "super" && ( <Banner/>)}
+        {userType !== "admin" && userType !== "super" && ( <Banner/>)}
       </div>
   );
 };

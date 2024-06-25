@@ -126,7 +126,7 @@ const Login = () => {
                 </Col>
               </Form.Group>
 
-              {(errors.email || errors.password) && (
+              {(errors.email || errors.password || errors.apiError) && (
                 <div className="mt-1 mb-3">
                   <Alert variant="danger">{errorMsg}</Alert>
                 </div>
