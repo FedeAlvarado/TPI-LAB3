@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Modal, Form } from "react-bootstrap";
+import { Card, Button, Modal, Form, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
 import "./productItem.css";
 import { useContext } from "react";
@@ -17,6 +17,7 @@ const ProductItem = ({
   onDeleteProduct,
 }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState({
     id,
     name,
@@ -30,6 +31,8 @@ const ProductItem = ({
   const handleAddToCart = () => {
     if (stock > 0) {
       addToCart({ id, name, description, price, image, stock });
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 2000);
     }
   };
 
@@ -77,17 +80,15 @@ const ProductItem = ({
           style={{
             maxWidth: "100%",
             objectFit: "contain",
-            height: "160px",
-            marginBottom: "25px",
-            marginTop: "15px",
+            height: "150px",
+            marginBottom: "5px",
+            marginTop: "5px",
           }}
         />
         <Card.Body>
           <Card.Title>{name}</Card.Title>
-          <Card.Subtitle>
-            {description}
-          </Card.Subtitle>
-          <br/>
+          <Card.Subtitle>{description}</Card.Subtitle>
+          <br />
           <Card.Subtitle>
             <strong>Precio: </strong>
             {`$${price}`}
@@ -121,6 +122,11 @@ const ProductItem = ({
                 Eliminar
               </Button>
             </div>
+          )}
+          {showSuccessMessage && (
+            <Alert variant="success" className="fixed-top-right">
+              PRODUCTO AÑADIDO A CARRITO
+            </Alert>
           )}
         </Card.Body>
       </Card>
@@ -197,7 +203,6 @@ ProductItem.propTypes = {
   addToCart: PropTypes.func.isRequired,
   onEditProduct: PropTypes.func.isRequired,
   onDeleteProduct: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 export default ProductItem;

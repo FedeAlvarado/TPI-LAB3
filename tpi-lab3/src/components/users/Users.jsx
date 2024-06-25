@@ -3,16 +3,21 @@ import UserItem from "../userItem/UserItem";
 import { Button, Container } from "react-bootstrap";
 import UpdateUser from "../updateUser/UpdateUser";
 import "./Users.css";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 
 const Users = () => {
-  const [users, setUser] = useState([]);
+  const [users, setUsers] = useState([]);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:7054/User", {
         method: "GET",
@@ -24,7 +29,7 @@ const Users = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setUser(data);
+        setUsers(data);
         console.log("Se reciben los usuarios de la api");
       } else {
         setErrors(true);
@@ -34,6 +39,8 @@ const Users = () => {
       setErrors(true);
       setErrorMsg("Error al conectar con el servidor.");
       console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,7 +59,7 @@ const Users = () => {
         console.log("Register new user");
         alert("Usuario registrado exitosamente");
         fetchUsers();
-      } else if (response.status == 409) {
+      } else if (response.status === 409) {
         setErrors(true);
         setErrorMsg("El usuario ya se encuentra registrado.");
         return;
@@ -134,8 +141,10 @@ const Users = () => {
   return (
     <div>
       <Button onClick={() => setShowUpdate(true)}>AGREGAR USUARIO</Button>
-
-      {users.length > 0 ? (
+      <br/>
+      {loading ? (
+        <LoadingSpinner />
+      ) : users.length > 0 ? (
         <div className="user-grid">
           {sortUsersByType(users).map((user, index) => {
             const isDeleted = user.deleteDate !== null;
@@ -180,3 +189,4 @@ const Users = () => {
 };
 
 export default Users;
+

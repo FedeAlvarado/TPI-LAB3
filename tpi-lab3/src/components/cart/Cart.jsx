@@ -8,7 +8,7 @@ import { BsCartX } from "react-icons/bs";
 import "./cart.css";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import Banner from "../banner/Banner";
-import { Modal } from 'react-bootstrap';
+import { Modal } from "react-bootstrap";
 
 const Cart = ({ cart, setCart }) => {
   const [showModal, setShowModal] = useState(false);
@@ -26,20 +26,31 @@ const Cart = ({ cart, setCart }) => {
   };
 
   const handleRemove = (id) => {
-    setCart(cart.filter(product => product.id !== id));
+    setCart(cart.filter((product) => product.id !== id));
   };
 
   const handleQuantityChange = (id, e) => {
-    var quantity=isNaN(parseInt(e.target.value))?1:parseInt(e.target.value);
+    const quantity = isNaN(parseInt(e.target.value))
+      ? 1
+      : parseInt(e.target.value);
+    const product = cart.find((product) => product.id === id);
 
     if (quantity < 1) {
-      quantity = 1;
-    }    
-    e.target.value=quantity;
+      e.target.value = 1;
+      return;
+    }
 
-    setCart(cart.map(product =>
-      product.id === id ? { ...product, quantity: quantity } : product
-    ));
+    if (quantity > product.stock) {
+      alert("No puedes agregar más de este producto al carrito.");
+      e.target.value = product.stock;
+      return;
+    }
+
+    setCart(
+      cart.map((product) =>
+        product.id === id ? { ...product, quantity: quantity } : product
+      )
+    );
   };
 
   const handleProceedToPayment = async () => {
@@ -107,7 +118,11 @@ const Cart = ({ cart, setCart }) => {
                     <img
                       src={product.image}
                       alt={product.name}
-                      style={{ width: "100px", height: "100px", margin: "15px" }}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        margin: "15px",
+                      }}
                     />
                   </td>
                   <td>{product.name}</td>
@@ -117,12 +132,7 @@ const Cart = ({ cart, setCart }) => {
                       type="number"
                       value={product.quantity}
                       min="1"
-                      onChange={(e) =>
-                        handleQuantityChange(
-                          product.id,
-                          e
-                        )
-                      }
+                      onChange={(e) => handleQuantityChange(product.id, e)}
                       style={{ width: "60px" }}
                     />
                   </td>
@@ -149,12 +159,14 @@ const Cart = ({ cart, setCart }) => {
           </div>
         </>
       )}
-      <div style={{ textAlign: "center", marginTop: "20px", marginBottom: "10px" }}>
+      <div
+        style={{ textAlign: "center", marginTop: "20px", marginBottom: "10px" }}
+      >
         <Button variant="secondary" onClick={handleClickHome}>
           Volver al inicio
         </Button>
       </div>
-      <div>{userType === "user" && (<Banner />)}</div>
+      <div>{userType === "user" && <Banner />}</div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -167,14 +179,13 @@ const Cart = ({ cart, setCart }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-
     </>
   );
 };
 
 Cart.propTypes = {
   cart: PropTypes.array.isRequired,
-  setCart: PropTypes.func.isRequired
+  setCart: PropTypes.func.isRequired,
 };
 
 export default Cart;
