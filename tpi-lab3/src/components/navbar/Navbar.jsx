@@ -5,6 +5,7 @@ import { AuthenticationContext } from "../../services/authentication/authenticat
 import { FaTools, FaUserCircle, FaShoppingCart } from "react-icons/fa";
 import './NavBar.css';
 import Searcher from '../searcher/Searcher';
+import useCarrito from "../../hooks/useCarrito";
 
 const Navbar2 = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Navbar2 = () => {
   const [showOut, setShowOut] = useState(false);
 
   const { userType, logged, handleLogout } = useContext(AuthenticationContext);
+  const { clearCart } = useCarrito();
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -27,7 +29,8 @@ const Navbar2 = () => {
   const handleOut = () => {
     setShowOut(false);
     navigate("/");
-    handleLogout();    
+    handleLogout();
+    clearCart();
   };
 
   return (

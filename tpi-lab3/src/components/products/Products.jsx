@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, Container, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "../navbar/Navbar";
-import PropTypes from "prop-types";
 import ProductItem from "../productItem/ProductItem";
 import ProductModal from "../productModal/ProductModal";
 import { AuthenticationContext } from "../../services/authentication/authentication.context";
 import Banner from "../banner/Banner";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import "./products.css";
+import useCarrito from "../../hooks/useCarrito";
 
 const Products = ({ carts }) => {
   const [productsApi, setProductsApi] = useState([]);
@@ -16,12 +16,12 @@ const Products = ({ carts }) => {
   const [errors, setErrors] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
+  
 
   const navigate = useNavigate();
   const { userType } = useContext(AuthenticationContext);
+
+  const { showSuccessMessage, addToCart} = useCarrito();
 
   const handleClick = () => {
     navigate("/");
@@ -141,44 +141,7 @@ const Products = ({ carts }) => {
       setErrorMsg("Error al conectar con el servidor.");
       console.error("Error deleting product:", error);
     }
-  };
-
-  const addToCart = (product) => {
-    let productAdded = false;
-
-    carts((prevCart) => {
-      const existingProduct = prevCart.find((p) => p.id === product.id);
-
-      if (existingProduct) {
-        if (existingProduct.quantity < product.stock) {
-          productAdded = true;
-          return prevCart.map((p) =>
-            p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p
-          );
-        } else {
-          setAlertMessage("No puedes agregar más de este producto al carrito");
-          setShowAlert(true);
-          setTimeout(() => setShowAlert(false), 3000);
-          return prevCart;
-        }
-      } else {
-        if (product.stock > 0) {
-          productAdded = true;
-          return [...prevCart, { ...product, quantity: 1 }];
-        } else {
-          setAlertMessage("Este producto está agotado");
-          setShowAlert(true);
-          setTimeout(() => setShowAlert(false), 3000);
-          return prevCart;
-        }
-      }
-    });
-
-    if (productAdded) {
-      setShowSuccessMessage(true);
-      setTimeout(() => setShowSuccessMessage(false), 2000);
-    }
-  };
+  };  
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -248,20 +211,10 @@ const Products = ({ carts }) => {
         <p>ERROR AL CARGAR LOS DATOS</p>
       )}
       {userType === "user" && <Banner />}
-      {showAlert && (
-        <Alert variant="danger" className="fixed-top-right">
-          {alertMessage}
-        </Alert>
-      )}
       <br />
       <Button onClick={handleClick}>Volver al inicio</Button>
     </>
   );
 };
 
-Products.propTypes = {
-  carts: PropTypes.func.isRequired,
-};
-
 export default Products;
-

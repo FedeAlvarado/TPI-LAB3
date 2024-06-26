@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
@@ -6,14 +6,14 @@ import Navbar2 from "../navbar/Navbar";
 import PropTypes from "prop-types";
 import { BsCartX } from "react-icons/bs";
 import "./cart.css";
-import { AuthenticationContext } from "../../services/authentication/authentication.context";
-import Banner from "../banner/Banner";
 import { Modal } from "react-bootstrap";
+import useCarrito from "../../hooks/useCarrito";
 
-const Cart = ({ cart, setCart }) => {
+const Cart = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const { userType } = useContext(AuthenticationContext);
+
+  const { cart, removeFromCart, updateQuantity, clearCart } = useCarrito();
 
   const handleClickExplore = () => {
     navigate("/products");
@@ -21,34 +21,6 @@ const Cart = ({ cart, setCart }) => {
 
   const handleClickHome = () => {
     navigate("/");
-  };
-
-  const handleRemove = (id) => {
-    setCart(cart.filter((product) => product.id !== id));
-  };
-
-  const handleQuantityChange = (id, e) => {
-    const quantity = isNaN(parseInt(e.target.value))
-      ? 1
-      : parseInt(e.target.value);
-    const product = cart.find((product) => product.id === id);
-
-    if (quantity < 1) {
-      e.target.value = 1;
-      return;
-    }
-
-    if (quantity > product.stock) {
-      alert("No puedes agregar más de este producto al carrito.");
-      e.target.value = product.stock;
-      return;
-    }
-
-    setCart(
-      cart.map((product) =>
-        product.id === id ? { ...product, quantity: quantity } : product
-      )
-    );
   };
 
   const handleProceedToPayment = async () => {
@@ -68,6 +40,7 @@ const Cart = ({ cart, setCart }) => {
       if (response.ok) {
         console.log("Productos actualizados exitosamente");
         setShowModal(true);
+        clearCart();
       } else {
         setErrors(true);
         setErrorMsg(`Error: ${response.status}`);
@@ -86,7 +59,7 @@ const Cart = ({ cart, setCart }) => {
 
   const handleModalClose = () => {
     setShowModal(false);
-    setCart([]);
+    clearCart();
     navigate("/");
   };
 
@@ -139,7 +112,7 @@ const Cart = ({ cart, setCart }) => {
                       type="number"
                       value={product.quantity}
                       min="1"
-                      onChange={(e) => handleQuantityChange(product.id, e)}
+                      onChange={(e) => updateQuantity(product.id, e)}
                       style={{ width: "60px" }}
                     />
                   </td>
@@ -147,7 +120,7 @@ const Cart = ({ cart, setCart }) => {
                   <td>
                     <Button
                       variant="danger"
-                      onClick={() => handleRemove(product.id)}
+                      onClick={() => removeFromCart(product.id)}
                     >
                       Eliminar
                     </Button>
