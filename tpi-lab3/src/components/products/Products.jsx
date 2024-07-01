@@ -10,7 +10,7 @@ import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import "./products.css";
 import useCarrito from "../../hooks/useCarrito";
 
-const Products = ({ carts }) => {
+const Products = () => {
   const [productsApi, setProductsApi] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState(false);

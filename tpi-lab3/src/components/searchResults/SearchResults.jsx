@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ListGroup, Alert, Container } from "react-bootstrap";
+import React, { useState, useEffect, useContext, useMemo } from "react";
+import { Alert, Container } from "react-bootstrap";
 import ProductItem from "../productItem/ProductItem";
 import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -18,12 +18,6 @@ const SearchResults = ({ carts }) => {
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  useEffect(() => {
-    if (searchTerm && productosApi.length > 0) {
-      filterProducts();
-    }
-  }, [searchTerm, productosApi]);
 
   const fetchProducts = async () => {
     try {
@@ -102,8 +96,8 @@ const SearchResults = ({ carts }) => {
     }
   };
 
-  const filterProducts = () => {
-    const filtered = productosApi.filter(
+const filtered = useMemo(() => {
+    return productosApi.filter(
       (product) =>
         product.name &&
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -111,9 +105,12 @@ const SearchResults = ({ carts }) => {
           ? true
           : product.deleteDate === null)
     );
-    setFilteredProducts(filtered);
-  };
+  }, [productosApi, searchTerm, userType]);
 
+  useEffect(() => {
+    setFilteredProducts(filtered);
+  }, [filtered])
+ 
   const addToCart = (product) => {
     carts((prevCart) => {
       const existingProduct = prevCart.find((p) => p.id === product.id);

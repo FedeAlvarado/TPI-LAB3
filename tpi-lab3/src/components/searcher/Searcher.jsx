@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,11 +6,11 @@ const Searcher = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = useCallback((e) => {
     setSearchTerm(e.target.value);
-  };
+  }, []); // Dependencia vacía para que la función se memorice y no se recree en cada render
 
-  const handleSearchSubmit = (e) => {
+  const handleSearchSubmit = useCallback((e) => {
     e.preventDefault();
 
     if (!searchTerm.trim()) {
@@ -20,7 +20,7 @@ const Searcher = () => {
 
     navigate('/search-results', { state: { searchTerm } });
     setSearchTerm('');
-  };
+  }, [searchTerm, navigate]); // Se vuelve a crear la función solo si searchTerm o navigate cambian
 
   return (
     <div className="searcher">
